@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Envoyer un message</title>
+  
+  <!-- TEXTE A MODIFIER : Titre de l'onglet du navigateur -->
+  <title>Mon Projet Webhook</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -13,8 +16,9 @@
     }
 
     body {
-      background-color: #0f172a;
-      color: #f8fafc;
+      /* Fond global bleu clair doux */
+      background-color: #e0f2fe;
+      color: #0369a1;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,107 +27,126 @@
     }
 
     .card {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      /* Carte centrale bleu glacier avec ombre contrastée */
+      background: #f0f9ff;
+      padding: 32px;
+      border-radius: 16px;
+      border: 2px solid #bae6fd;
+      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       margin-bottom: 8px;
-      color: #ffffff;
+      /* Bleu profond contrasté pour la lisibilité */
+      color: #0c4a6e;
+      text-align: center;
     }
 
     p.subtitle {
-      font-size: 0.9rem;
-      color: #94a3b8;
+      font-size: 0.95rem;
+      color: #0284c7;
       margin-bottom: 24px;
+      text-align: center;
     }
 
     label {
       display: block;
       margin-bottom: 8px;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 0.95rem;
-      color: #cbd5e1;
+      color: #0369a1;
     }
 
     textarea {
       width: 100%;
-      height: 120px;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      background-color: #0f172a;
-      color: #f8fafc;
+      height: 140px;
+      padding: 14px;
+      border-radius: 10px;
+      border: 2px solid #7dd3fc;
+      background-color: #ffffff;
+      color: #0c4a6e;
       font-size: 1rem;
       resize: vertical;
       outline: none;
-      transition: border-color 0.2s;
+      transition: all 0.2s ease;
     }
 
+    /* Bordure renforcée au clic */
     textarea:focus {
-      border-color: #6366f1;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
     }
 
     button {
       width: 100%;
-      margin-top: 16px;
-      padding: 12px;
-      background-color: #6366f1;
-      color: white;
+      margin-top: 20px;
+      padding: 14px;
+      /* Bouton bleu clair vif */
+      background-color: #38bdf8;
+      color: #0c4a6e;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: all 0.2s ease;
     }
 
     button:hover {
-      background-color: #4f46e5;
+      /* Assombrissement au survol */
+      background-color: #0284c7;
+      color: #ffffff;
     }
 
     #status {
-      margin-top: 16px;
-      font-size: 0.9rem;
+      margin-top: 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
       text-align: center;
-      min-height: 20px;
+      min-height: 22px;
     }
 
     .success {
-      color: #4ade80;
+      color: #0284c7;
     }
 
     .error {
-      color: #f87171;
+      color: #e11d48;
     }
 
     .loading {
-      color: #38bdf8;
+      color: #0ea5e9;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h1>Envoyer un message</h1>
-    <p class="subtitle">Ton texte sera directement publié sur Discord.</p>
+    <!-- TEXTE A MODIFIER : Grand titre principal -->
+    <h1>Titre de ton site</h1>
+    
+    <!-- TEXTE A MODIFIER : Description sous le titre -->
+    <p class="subtitle">Écris ta petite description ici pour expliquer le site.</p>
 
     <form id="webhookForm">
-      <label for="userText">Ton message :</label>
-      <textarea id="userText" placeholder="Écris ton message ici..." required></textarea>
-      <button type="submit">Publier</button>
+      <!-- TEXTE A MODIFIER : Libellé au-dessus du champ texte -->
+      <label for="userText">Ton texte :</label>
+      
+      <!-- TEXTE A MODIFIER : Le placeholder (texte indicatif dans la zone) -->
+      <textarea id="userText" placeholder="Tape ton texte ici..." required></textarea>
+      
+      <!-- TEXTE A MODIFIER : Texte du bouton de validation -->
+      <button type="submit">Envoyer le message</button>
     </form>
 
     <p id="status"></p>
   </div>
 
   <script>
-    // Remplace par ton URL Webhook Discord
+    // COLLE TON URL DE WEBHOOK DISCORD ENTRE LES GUILLEMETS CI-DESSOUS
     const WEBHOOK_URL = "TON_WEBHOOK_DISCORD_ICI";
 
     document.getElementById('webhookForm').addEventListener('submit', async (e) => {
@@ -132,6 +155,7 @@
       const textInput = document.getElementById('userText').value;
       const status = document.getElementById('status');
 
+      // TEXTE A MODIFIER : Message d'attente
       status.className = "loading";
       status.textContent = "Envoi en cours...";
 
@@ -148,15 +172,18 @@
 
         if (response.ok) {
           status.className = "success";
+          // TEXTE A MODIFIER : Message de succès
           status.textContent = "Message envoyé avec succès !";
           document.getElementById('userText').value = '';
         } else {
           status.className = "error";
+          // TEXTE A MODIFIER : Message d'erreur serveur
           status.textContent = "Erreur lors de l'envoi.";
         }
       } catch (error) {
         status.className = "error";
-        status.textContent = "Erreur réseau.";
+        // TEXTE A MODIFIER : Message d'erreur réseau
+        status.textContent = "Erreur réseau. Vérifie ta connexion.";
       }
     });
   </script>
