@@ -4,20 +4,127 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Envoyer un message</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 480px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    p.subtitle {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-size: 1rem;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      border-color: #6366f1;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px;
+      background-color: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #4f46e5;
+    }
+
+    #status {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    .success {
+      color: #4ade80;
+    }
+
+    .error {
+      color: #f87171;
+    }
+
+    .loading {
+      color: #38bdf8;
+    }
+  </style>
 </head>
 <body>
 
-  <form id="webhookForm">
-    <label for="userText">Ton message :</label><br>
-    <textarea id="userText" rows="5" cols="40" required></textarea><br><br>
-    <button type="submit">Publier</button>
-  </form>
+  <div class="card">
+    <h1>Envoyer un message</h1>
+    <p class="subtitle">Ton texte sera directement publié sur Discord.</p>
 
-  <p id="status"></p>
+    <form id="webhookForm">
+      <label for="userText">Ton message :</label>
+      <textarea id="userText" placeholder="Écris ton message ici..." required></textarea>
+      <button type="submit">Publier</button>
+    </form>
+
+    <p id="status"></p>
+  </div>
 
   <script>
-    // Remplace par l'URL de ton Webhook Discord
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1536037492485128212/x9aXa5ItMYOABx_NNRhNHebK8imGsLDiRjKIrsRIzLw1uJ6emYeJvwHk1TzDr45nyXSJ";
+    // Remplace par ton URL Webhook Discord
+    const WEBHOOK_URL = "TON_WEBHOOK_DISCORD_ICI";
 
     document.getElementById('webhookForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -25,6 +132,7 @@
       const textInput = document.getElementById('userText').value;
       const status = document.getElementById('status');
 
+      status.className = "loading";
       status.textContent = "Envoi en cours...";
 
       try {
@@ -39,12 +147,15 @@
         });
 
         if (response.ok) {
+          status.className = "success";
           status.textContent = "Message envoyé avec succès !";
           document.getElementById('userText').value = '';
         } else {
+          status.className = "error";
           status.textContent = "Erreur lors de l'envoi.";
         }
       } catch (error) {
+        status.className = "error";
         status.textContent = "Erreur réseau.";
       }
     });
