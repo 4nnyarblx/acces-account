@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Envoyer un message</title>
+</head>
+<body>
+
+  <form id="webhookForm">
+    <label for="userText">Ton message :</label><br>
+    <textarea id="userText" rows="5" cols="40" required></textarea><br><br>
+    <button type="submit">Publier</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    // Remplace par l'URL de ton Webhook Discord
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1536037492485128212/x9aXa5ItMYOABx_NNRhNHebK8imGsLDiRjKIrsRIzLw1uJ6emYeJvwHk1TzDr45nyXSJ";
+
+    document.getElementById('webhookForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const textInput = document.getElementById('userText').value;
+      const status = document.getElementById('status');
+
+      status.textContent = "Envoi en cours...";
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            content: textInput
+          })
+        });
+
+        if (response.ok) {
+          status.textContent = "Message envoyé avec succès !";
+          document.getElementById('userText').value = '';
+        } else {
+          status.textContent = "Erreur lors de l'envoi.";
+        }
+      } catch (error) {
+        status.textContent = "Erreur réseau.";
+      }
+    });
+  </script>
+
+</body>
+</html>
