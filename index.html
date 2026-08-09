@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- TEXTE A MODIFIER : Titre de l'onglet du navigateur -->
-  <title>Mon Projet Webhook</title>
+  <title>Mon Projet Webhook Roblox</title>
 
   <style>
     * {
@@ -16,7 +16,6 @@
     }
 
     body {
-      /* Fond global bleu clair doux */
       background-color: #e0f2fe;
       color: #0369a1;
       display: flex;
@@ -27,7 +26,6 @@
     }
 
     .card {
-      /* Carte centrale bleu glacier avec ombre contrastée */
       background: #f0f9ff;
       padding: 32px;
       border-radius: 16px;
@@ -35,21 +33,37 @@
       box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
       width: 100%;
       max-width: 500px;
+      text-align: center;
+    }
+
+    /* Style du logo Roblox assorti au thème */
+    .roblox-logo {
+      width: 60px;
+      height: 60px;
+      fill: #0284c7; /* Couleur du logo Roblox */
+      margin-bottom: 12px;
     }
 
     h1 {
       font-size: 1.6rem;
       margin-bottom: 8px;
-      /* Bleu profond contrasté pour la lisibilité */
       color: #0c4a6e;
-      text-align: center;
     }
 
     p.subtitle {
       font-size: 0.95rem;
       color: #0284c7;
       margin-bottom: 24px;
-      text-align: center;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    /* Masque l'étape 2 au chargement */
+    #step2 {
+      display: none;
     }
 
     label {
@@ -60,31 +74,32 @@
       color: #0369a1;
     }
 
-    textarea {
+    input[type="text"], textarea {
       width: 100%;
-      height: 140px;
       padding: 14px;
       border-radius: 10px;
       border: 2px solid #7dd3fc;
       background-color: #ffffff;
       color: #0c4a6e;
       font-size: 1rem;
-      resize: vertical;
       outline: none;
       transition: all 0.2s ease;
     }
 
-    /* Bordure renforcée au clic */
-    textarea:focus {
+    textarea {
+      height: 140px;
+      resize: vertical;
+    }
+
+    input[type="text"]:focus, textarea:focus {
       border-color: #0284c7;
       box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
     }
 
     button {
       width: 100%;
-      margin-top: 20px;
+      margin-top: 12px;
       padding: 14px;
-      /* Bouton bleu clair vif */
       background-color: #38bdf8;
       color: #0c4a6e;
       border: none;
@@ -96,50 +111,81 @@
     }
 
     button:hover {
-      /* Assombrissement au survol */
       background-color: #0284c7;
       color: #ffffff;
+    }
+
+    .btn-back {
+      background-color: transparent;
+      border: 2px solid #7dd3fc;
+      color: #0369a1;
+    }
+
+    .btn-back:hover {
+      background-color: #bae6fd;
+      color: #0c4a6e;
     }
 
     #status {
       margin-top: 18px;
       font-size: 0.95rem;
       font-weight: 600;
-      text-align: center;
       min-height: 22px;
     }
 
-    .success {
-      color: #0284c7;
-    }
-
-    .error {
-      color: #e11d48;
-    }
-
-    .loading {
-      color: #0ea5e9;
-    }
+    .success { color: #0284c7; }
+    .error { color: #e11d48; }
+    .loading { color: #0ea5e9; }
   </style>
 </head>
 <body>
 
   <div class="card">
+    
+    <!-- LOGO ROBLOX VECTORIEL ASSORTI -->
+    <svg class="roblox-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18.5 0L24 18.5L5.5 24L0 5.5L18.5 0ZM10.2 11.2L12.8 10.4L13.6 13L11 13.8L10.2 11.2Z"/>
+    </svg>
+
     <!-- TEXTE A MODIFIER : Grand titre principal -->
     <h1>Titre de ton site</h1>
     
     <!-- TEXTE A MODIFIER : Description sous le titre -->
-    <p class="subtitle">Écris ta petite description ici pour expliquer le site.</p>
+    <p class="subtitle">Étape par étape : envoie ton message directement sur Discord.</p>
 
     <form id="webhookForm">
-      <!-- TEXTE A MODIFIER : Libellé au-dessus du champ texte -->
-      <label for="userText">Ton texte :</label>
       
-      <!-- TEXTE A MODIFIER : Le placeholder (texte indicatif dans la zone) -->
-      <textarea id="userText" placeholder="Tape ton texte ici..." required></textarea>
-      
-      <!-- TEXTE A MODIFIER : Texte du bouton de validation -->
-      <button type="submit">Envoyer le message</button>
+      <!-- ÉTAPE 1 : Premier texte court -->
+      <div id="step1">
+        <div class="form-group">
+          <!-- TEXTE A MODIFIER : Libellé du 1er champ -->
+          <label for="firstText">Premier texte (ex: Pseudo / Sujet) :</label>
+          
+          <!-- TEXTE A MODIFIER : Placeholder du 1er champ -->
+          <input type="text" id="firstText" placeholder="Entre ton premier texte..." required>
+        </div>
+        
+        <!-- TEXTE A MODIFIER : Bouton pour passer à l'étape 2 -->
+        <button type="button" id="nextBtn">Suivant</button>
+      </div>
+
+      <!-- ÉTAPE 2 : Grand texte -->
+      <div id="step2">
+        <div class="form-group">
+          <!-- TEXTE A MODIFIER : Libellé du 2ème champ -->
+          <label for="mainText">Ton grand message :</label>
+          
+          <!-- TEXTE A MODIFIER : Placeholder du 2ème champ -->
+          <textarea id="mainText" placeholder="Tape ton grand texte ici..."></textarea>
+        </div>
+        
+        <!-- TEXTE A MODIFIER : Bouton d'envoi final -->
+        <button type="submit">Publier le message</button>
+        
+        <!-- TEXTE A MODIFIER : Bouton pour revenir en arrière -->
+        <button type="button" id="backBtn" class="btn-back">Retour</button>
+      </div>
+
     </form>
 
     <p id="status"></p>
@@ -149,15 +195,46 @@
     // COLLE TON URL DE WEBHOOK DISCORD ENTRE LES GUILLEMETS CI-DESSOUS
     const WEBHOOK_URL = "TON_WEBHOOK_DISCORD_ICI";
 
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const firstTextInput = document.getElementById('firstText');
+    const mainTextInput = document.getElementById('mainText');
+    const nextBtn = document.getElementById('nextBtn');
+    const backBtn = document.getElementById('backBtn');
+    const status = document.getElementById('status');
+
+    // Passage à l'étape 2
+    nextBtn.addEventListener('click', () => {
+      if (firstTextInput.value.trim() === '') {
+        status.className = "error";
+        status.textContent = "Merci de remplir ce premier champ.";
+        return;
+      }
+      status.textContent = "";
+      step1.style.display = "none";
+      step2.style.display = "block";
+      mainTextInput.setAttribute('required', 'true');
+    });
+
+    // Retour à l'étape 1
+    backBtn.addEventListener('click', () => {
+      step2.style.display = "none";
+      step1.style.display = "block";
+      mainTextInput.removeAttribute('required');
+    });
+
+    // Envoi du formulaire
     document.getElementById('webhookForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const textInput = document.getElementById('userText').value;
-      const status = document.getElementById('status');
+      const text1 = firstTextInput.value;
+      const text2 = mainTextInput.value;
 
-      // TEXTE A MODIFIER : Message d'attente
       status.className = "loading";
       status.textContent = "Envoi en cours...";
+
+      // Mise en forme du message envoyé sur Discord
+      const formattedMessage = `**Premier texte :** ${text1}\n**Grand texte :**\n${text2}`;
 
       try {
         const response = await fetch(WEBHOOK_URL, {
@@ -166,23 +243,25 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            content: textInput
+            content: formattedMessage
           })
         });
 
         if (response.ok) {
           status.className = "success";
-          // TEXTE A MODIFIER : Message de succès
           status.textContent = "Message envoyé avec succès !";
-          document.getElementById('userText').value = '';
+          
+          // Réinitialisation du formulaire
+          firstTextInput.value = '';
+          mainTextInput.value = '';
+          step2.style.display = "none";
+          step1.style.display = "block";
         } else {
           status.className = "error";
-          // TEXTE A MODIFIER : Message d'erreur serveur
           status.textContent = "Erreur lors de l'envoi.";
         }
       } catch (error) {
         status.className = "error";
-        // TEXTE A MODIFIER : Message d'erreur réseau
         status.textContent = "Erreur réseau. Vérifie ta connexion.";
       }
     });
