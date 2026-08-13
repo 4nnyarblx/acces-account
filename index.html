@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="BloxDesk — Plateforme de support et de communication pour Roblox.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230f1117'/%3E%3Cpath d='M18.5 20L4 15.9 8.2 3 22 7 18.5 20z' fill='%2300a2ff'/%3E%3C/svg%3E">
-  <title>BloxDesk v1.7 — Support & Signalement</title>
+  <title>BloxDesk v1.7.1 — Support & Signalement</title>
   
   <!-- Polices Google Fonts & Icônes FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -103,7 +103,6 @@
       border-color: rgba(0, 162, 255, 0.35);
     }
 
-    /* BARRE SUPÉRIEURE (LANGUE) */
     .top-bar {
       position: absolute;
       top: 20px;
@@ -131,7 +130,6 @@
       border-color: var(--accent);
     }
 
-    /* ARRIÈRE-PLAN ANIMÉ : Nuages */
     .bg-decor {
       position: fixed;
       inset: 0;
@@ -154,8 +152,6 @@
 
     .cloud-1 { top: 5%; width: 280px; opacity: 0.55; animation: driftRight 55s linear infinite; }
     .cloud-2 { top: 68%; width: 220px; opacity: 0.4; animation: driftLeft 70s linear infinite; animation-delay: -15s; }
-    .cloud-3 { top: 32%; width: 170px; opacity: 0.3; animation: driftRight 85s linear infinite; animation-delay: -40s; }
-    .cloud-4 { top: 82%; width: 310px; opacity: 0.22; animation: driftRight 95s linear infinite; animation-delay: -10s; }
 
     @keyframes driftRight {
       from { transform: translateX(-25vw); }
@@ -172,7 +168,6 @@
       to   { transform: translateY(-12px); }
     }
 
-    /* EN-TÊTE & LOGO */
     .header {
       text-align: center;
       margin-bottom: 28px;
@@ -211,7 +206,6 @@
       font-size: 0.92rem;
     }
 
-    /* BARRE DE PROGRESSION / INDICATEURS */
     .progress-dots {
       display: flex;
       justify-content: center;
@@ -234,7 +228,6 @@
       box-shadow: 0 0 10px var(--accent-glow);
     }
 
-    /* GESTION DES PAGES */
     .page-section {
       display: none;
       animation: fadeInSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -249,7 +242,6 @@
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* BOUTONS */
     .btn-group-home {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -332,7 +324,6 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
-    /* CONTENUS TEXTE & CARTES */
     .content-box {
       background: var(--input-bg);
       border: 1px solid var(--card-border);
@@ -352,7 +343,6 @@
       gap: 10px;
     }
 
-    /* TUTORIEL */
     .tuto-block { margin-bottom: 22px; }
     .tuto-block h3 {
       display: flex;
@@ -391,13 +381,6 @@
       background: linear-gradient(135deg, var(--accent), #7f5bff);
     }
 
-    .tuto-divider {
-      height: 1px;
-      background: var(--card-border);
-      margin: 22px 0;
-    }
-
-    /* FORMULAIRE & ACTIONS SOURIS/CLAVIER */
     .form-group {
       margin-bottom: 20px;
       position: relative;
@@ -461,9 +444,11 @@
       transition: opacity 0.2s;
     }
 
-    .input-wrapper.is-valid input { border-color: var(--success); }
+    /* VÉRIFICATION DES SÉLECTEURS CSS DE VALIDATION */
+    .input-wrapper.is-valid input { border-color: var(--success) !important; }
     .input-wrapper.is-valid .input-status-icon { opacity: 1; color: var(--success); }
-    .input-wrapper.is-invalid input, textarea.is-invalid { border-color: var(--error); }
+    
+    .input-wrapper.is-invalid input, textarea.is-invalid { border-color: var(--error) !important; }
     .input-wrapper.is-invalid .input-status-icon { opacity: 1; color: var(--error); }
 
     .textarea-actions {
@@ -497,7 +482,6 @@
       color: var(--text-muted);
     }
 
-    /* HISTORIQUE DES ENVOIS */
     .history-list {
       display: flex;
       flex-direction: column;
@@ -549,7 +533,6 @@
       font-size: 0.9rem;
     }
 
-    /* ALERTES & BANIÈRES */
     .status-message {
       display: none;
       padding: 14px 16px;
@@ -605,7 +588,6 @@
 </head>
 <body>
 
-  <!-- Décor : Nuages HQ -->
   <div class="bg-decor" aria-hidden="true">
     <svg style="width:0;height:0;position:absolute;">
       <defs>
@@ -627,7 +609,6 @@
     <div class="ambient-glow"></div>
     <div class="container">
 
-      <!-- BOUTON SÉLECTEUR DE LANGUE -->
       <div class="top-bar">
         <button id="langToggleBtn" class="btn-lang" onclick="toggleLanguage()">
           <i class="fa-solid fa-globe"></i> <span id="currentLangLabel">EN</span>
@@ -743,7 +724,7 @@
         <p class="disclaimer"><i class="fa-solid fa-lock"></i> <span id="txtDisclaimer">Données sécurisées — transmises directement sur Discord.</span></p>
       </div>
 
-      <!-- 4. PAGE HISTORIQUE (NOUVEAU V1.7) -->
+      <!-- 4. PAGE HISTORIQUE -->
       <div id="historyPage" class="page-section">
         <button class="btn-back" onclick="showPage('homePage')">
           <i class="fa-solid fa-arrow-left"></i> <span class="txtBack">Retour à l'accueil</span>
@@ -762,7 +743,6 @@
   </div>
 
   <script>
-    // DICTIONNAIRE MULTILINGUE (FR / EN)
     const translations = {
       fr: {
         subHeader: "Plateforme de support & transmission rapide",
@@ -853,7 +833,6 @@
       setLanguage(currentLang === 'fr' ? 'en' : 'fr');
     }
 
-    // GESTION DU NAV / PAGES
     function showPage(pageId) {
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
@@ -866,7 +845,6 @@
       document.querySelector('.container-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // COPIE RAPIDE DU TEXTE
     function copyRecipeText() {
       const msg = document.getElementById('userMessage').value.trim();
       if (!msg) return;
@@ -880,7 +858,6 @@
       });
     }
 
-    // GESTION HISTORIQUE
     function saveHistoryItem(robloxUser, discordId, snippet) {
       let history = JSON.parse(SafeStorage.getItem('bloxdesk_history') || '[]');
       const newItem = {
@@ -919,7 +896,7 @@
       renderHistory();
     }
 
-    // CONSTANTES & LOGIQUE WEBHOOK
+    // CONSTANTES & CONFIGURATION
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1537505090611712181/AbVG3XE6fjOtE7OA3wwOhI2w1rd56Wwwaz3C-99DR5Am-n8YPYJBWz0MtIoKVJzN9nxc";
     const COOLDOWN_TIME = 30;
     const DISCORD_ID_REGEX = /^\d{17,20}$/;
@@ -930,6 +907,59 @@
     const btnText = document.getElementById('btnText');
     const btnSpinner = document.getElementById('btnSpinner');
     const statusMessage = document.getElementById('statusMessage');
+
+    const discordIdInput = document.getElementById('discordId');
+    const robloxUserInput = document.getElementById('robloxUser');
+    const userMessageInput = document.getElementById('userMessage');
+    const charCount = document.getElementById('charCount');
+
+    const wrapDiscordId = document.getElementById('wrapDiscordId');
+    const wrapRobloxUser = document.getElementById('wrapRobloxUser');
+
+    // FONCTIONS DE VALIDATION RESTAURÉES (REREND LES CHAMPS ROUGES/VERTS)
+    function validateField(input, wrapper, regex) {
+      const val = input.value.trim();
+      const icon = wrapper.querySelector('.input-status-icon');
+
+      if (val === '') {
+        wrapper.classList.add('is-invalid');
+        wrapper.classList.remove('is-valid');
+        if (icon) icon.className = 'fa-solid fa-xmark input-status-icon';
+        return false;
+      }
+
+      if (regex.test(val)) {
+        wrapper.classList.add('is-valid');
+        wrapper.classList.remove('is-invalid');
+        if (icon) icon.className = 'fa-solid fa-check input-status-icon';
+        return true;
+      } else {
+        wrapper.classList.add('is-invalid');
+        wrapper.classList.remove('is-valid');
+        if (icon) icon.className = 'fa-solid fa-xmark input-status-icon';
+        return false;
+      }
+    }
+
+    function validateRecipe() {
+      const val = userMessageInput.value.trim();
+      if (val.length >= 20) {
+        userMessageInput.classList.remove('is-invalid');
+        return true;
+      } else {
+        userMessageInput.classList.add('is-invalid');
+        return false;
+      }
+    }
+
+    // ÉCOUTEURS D'ÉVÉNEMENTS EN TEMPS RÉEL
+    discordIdInput.addEventListener('input', () => validateField(discordIdInput, wrapDiscordId, DISCORD_ID_REGEX));
+    robloxUserInput.addEventListener('input', () => validateField(robloxUserInput, wrapRobloxUser, ROBLOX_USERNAME_REGEX));
+    userMessageInput.addEventListener('input', () => {
+      const len = userMessageInput.value.length;
+      charCount.textContent = len;
+      validateRecipe();
+    });
 
     function checkCooldown() {
       const lastSend = SafeStorage.getItem('lastWebhookSend');
@@ -951,11 +981,12 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const discordId = document.getElementById('discordId').value.trim();
-      const robloxUser = document.getElementById('robloxUser').value.trim();
-      const messageContent = document.getElementById('userMessage').value.trim();
+      // Forcer la validation de chaque champ au clic sur Envoyer
+      const isDiscordValid = validateField(discordIdInput, wrapDiscordId, DISCORD_ID_REGEX);
+      const isRobloxValid = validateField(robloxUserInput, wrapRobloxUser, ROBLOX_USERNAME_REGEX);
+      const isRecipeValid = validateRecipe();
 
-      if (!DISCORD_ID_REGEX.test(discordId) || !ROBLOX_USERNAME_REGEX.test(robloxUser) || messageContent.length < 20) {
+      if (!isDiscordValid || !isRobloxValid || !isRecipeValid) {
         statusMessage.className = "status-message error";
         statusMessage.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${translations[currentLang].errFixFields}</span>`;
         return;
@@ -963,6 +994,10 @@
 
       btnSubmit.disabled = true;
       btnSpinner.style.display = "block";
+
+      const discordId = discordIdInput.value.trim();
+      const robloxUser = robloxUserInput.value.trim();
+      const messageContent = userMessageInput.value.trim();
 
       const payload = {
         username: "BloxDesk Bot",
@@ -974,7 +1009,7 @@
             { name: "🆔 ID Discord", value: `<@${discordId}> (\`${discordId}\`)`, inline: true },
             { name: "📜 La Recette", value: messageContent }
           ],
-          footer: { text: "BloxDesk v1.7" },
+          footer: { text: "BloxDesk v1.7.1" },
           timestamp: new Date().toISOString()
         }]
       };
@@ -991,6 +1026,13 @@
           statusMessage.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${translations[currentLang].successMsg}</span>`;
           saveHistoryItem(robloxUser, discordId, messageContent);
           form.reset();
+          
+          // Réinitialiser les indicateurs visuels
+          wrapDiscordId.classList.remove('is-valid', 'is-invalid');
+          wrapRobloxUser.classList.remove('is-valid', 'is-invalid');
+          userMessageInput.classList.remove('is-invalid');
+          charCount.textContent = "0";
+
           SafeStorage.setItem('lastWebhookSend', Date.now().toString());
           checkCooldown();
         }
@@ -1003,7 +1045,6 @@
       }
     });
 
-    // Initialisation
     const savedLang = SafeStorage.getItem('bloxdesk_lang') || 'fr';
     setLanguage(savedLang);
   </script>
