@@ -4,26 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="BloxDesk — Plateforme de support et de communication pour Roblox.">
-  <title>BloxDesk — Support & Signalement</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230f1117'/%3E%3Cpath d='M18.5 20L4 15.9 8.2 3 22 7 18.5 20z' fill='%2300a2ff'/%3E%3C/svg%3E">
+  <title>BloxDesk v1.7 — Support & Signalement</title>
   
   <!-- Polices Google Fonts & Icônes FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
-      --bg-color: #0f1117;
-      --card-bg: rgba(22, 26, 36, 0.85);
+      --bg-color: #0b0d13;
+      --card-bg: rgba(18, 22, 31, 0.88);
       --card-border: rgba(255, 255, 255, 0.08);
       --accent: #00a2ff;
       --accent-hover: #0081cc;
+      --accent-glow: rgba(0, 162, 255, 0.25);
       --text-main: #f3f4f6;
       --text-muted: #8b8f98;
-      --input-bg: #0e0f12;
+      --input-bg: #090a0e;
       --success: #23a55a;
       --error: #f23f42;
+      --warning: #f0b232;
     }
 
     * {
@@ -33,6 +36,20 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-color);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
@@ -40,121 +57,258 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 24px 16px;
+      overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 15% 15%, rgba(0, 162, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+        radial-gradient(circle at 15% 15%, rgba(0, 162, 255, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(127, 91, 255, 0.05) 0%, transparent 45%);
+    }
+
+    .container-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 620px;
+    }
+
+    .ambient-glow {
+      position: absolute;
+      inset: -10px;
+      background: linear-gradient(135deg, var(--accent-glow), transparent 60%, rgba(127, 91, 255, 0.15));
+      border-radius: 28px;
+      filter: blur(20px);
+      opacity: 0.6;
+      z-index: 0;
+      transition: opacity 0.4s ease;
     }
 
     .container {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 600px;
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 36px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-radius: 24px;
+      padding: 40px 36px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
+    .container-wrapper:hover .ambient-glow {
+      opacity: 0.9;
+    }
+
+    .container:hover {
+      border-color: rgba(0, 162, 255, 0.35);
+    }
+
+    /* BARRE SUPÉRIEURE (LANGUE) */
+    .top-bar {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .btn-lang {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-lang:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent);
+    }
+
+    /* ARRIÈRE-PLAN ANIMÉ : Nuages */
+    .bg-decor {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cloud-wrapper {
+      position: absolute;
+      will-change: transform;
+    }
+
+    .cloud-svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 8px 16px rgba(0, 162, 255, 0.08));
+      animation: floatUpDown 6s ease-in-out infinite alternate;
+    }
+
+    .cloud-1 { top: 5%; width: 280px; opacity: 0.55; animation: driftRight 55s linear infinite; }
+    .cloud-2 { top: 68%; width: 220px; opacity: 0.4; animation: driftLeft 70s linear infinite; animation-delay: -15s; }
+    .cloud-3 { top: 32%; width: 170px; opacity: 0.3; animation: driftRight 85s linear infinite; animation-delay: -40s; }
+    .cloud-4 { top: 82%; width: 310px; opacity: 0.22; animation: driftRight 95s linear infinite; animation-delay: -10s; }
+
+    @keyframes driftRight {
+      from { transform: translateX(-25vw); }
+      to   { transform: translateX(125vw); }
+    }
+
+    @keyframes driftLeft {
+      from { transform: translateX(125vw); }
+      to   { transform: translateX(-25vw); }
+    }
+
+    @keyframes floatUpDown {
+      from { transform: translateY(0px); }
+      to   { transform: translateY(-12px); }
+    }
+
+    /* EN-TÊTE & LOGO */
     .header {
       text-align: center;
       margin-bottom: 28px;
     }
 
-    .roblox-logo {
-      width: 48px;
-      height: 48px;
-      fill: var(--text-main);
-      margin-bottom: 12px;
-      transition: transform 0.3s ease;
+    .roblox-logo-wrapper {
+      display: inline-block;
+      margin-bottom: 14px;
     }
 
-    .container:hover .roblox-logo {
-      transform: rotate(-10deg) scale(1.05);
+    .roblox-logo-hq {
+      width: 68px;
+      height: 68px;
+      filter: drop-shadow(0 6px 18px rgba(0, 162, 255, 0.35));
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.5s ease;
+      cursor: pointer;
+    }
+
+    .roblox-logo-hq:hover {
+      transform: rotate(-12deg) scale(1.12);
+      filter: drop-shadow(0 10px 28px rgba(0, 162, 255, 0.6));
     }
 
     .header h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
+      font-size: 1.85rem;
+      font-weight: 800;
       letter-spacing: -0.5px;
       margin-bottom: 6px;
+      background: linear-gradient(135deg, #ffffff 40%, rgba(255, 255, 255, 0.7));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .header p {
       color: var(--text-muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    /* BARRE DE PROGRESSION / INDICATEURS */
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .progress-dots .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--card-border);
+      transition: background 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+    }
+
+    .progress-dots .dot.active {
+      background: var(--accent);
+      width: 22px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--accent-glow);
     }
 
     /* GESTION DES PAGES */
     .page-section {
       display: none;
-      animation: fadeIn 0.25s ease-in-out;
+      animation: fadeInSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .page-section.active {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* BOUTONS D'ACCUEIL */
+    /* BOUTONS */
     .btn-group-home {
-      display: flex;
-      gap: 14px;
-      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .btn-group-home .btn-primary {
+      grid-column: span 2;
     }
 
     @media (max-width: 500px) {
-      .btn-group-home {
-        flex-direction: column;
-      }
+      .btn-group-home { grid-template-columns: 1fr; }
+      .btn-group-home .btn-primary { grid-column: span 1; }
+      .container { padding: 28px 20px; }
     }
 
     .btn {
       width: 100%;
       border: none;
-      border-radius: 10px;
-      padding: 14px;
-      font-size: 0.95rem;
-      font-weight: 600;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.92rem;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
-      transition: all 0.2s ease;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       text-decoration: none;
     }
 
+    .btn:active:not(:disabled) {
+      transform: scale(0.97) !important;
+    }
+
     .btn-primary {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), #0077cc);
       color: #fff;
+      box-shadow: 0 4px 16px rgba(0, 162, 255, 0.25);
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+      background: linear-gradient(135deg, #1ab0ff, var(--accent));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 162, 255, 0.4);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text-main);
       border: 1px solid var(--card-border);
     }
 
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(0, 162, 255, 0.4);
+      transform: translateY(-2px);
     }
 
     .btn-back {
@@ -162,412 +316,696 @@
       color: var(--text-muted);
       border: none;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
-      transition: color 0.2s;
+      margin-bottom: 22px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
     }
 
     .btn-back:hover {
       color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    /* CONTENUS TEXTE */
+    /* CONTENUS TEXTE & CARTES */
     .content-box {
       background: var(--input-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 22px;
       line-height: 1.6;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
 
     .content-box h2 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
       color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .content-box ol {
-      margin-left: 20px;
-      margin-top: 10px;
+    /* TUTORIEL */
+    .tuto-block { margin-bottom: 22px; }
+    .tuto-block h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
     }
 
-    .content-box li {
-      margin-bottom: 6px;
+    .step-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    /* FORMULAIRE & INPUTS */
+    .step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-badge {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #7f5bff);
+    }
+
+    .tuto-divider {
+      height: 1px;
+      background: var(--card-border);
+      margin: 22px 0;
+    }
+
+    /* FORMULAIRE & ACTIONS SOURIS/CLAVIER */
     .form-group {
       margin-bottom: 20px;
+      position: relative;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 16px;
     }
 
     @media (max-width: 550px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
+      .form-row { grid-template-columns: 1fr; }
     }
 
     label {
       display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
       color: var(--text-muted);
       margin-bottom: 8px;
     }
 
-    label i {
-      margin-right: 6px;
-      color: var(--accent);
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
 
     input, textarea {
       width: 100%;
       background: var(--input-bg);
       border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 12px 14px;
+      border-radius: 10px;
+      padding: 13px 40px 13px 14px;
       color: var(--text-main);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       outline: none;
-      transition: border-color 0.15s ease;
-    }
-
-    input:focus, textarea:focus {
-      border-color: var(--accent);
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     textarea {
-      min-height: 220px;
+      padding-right: 14px;
+      min-height: 160px;
       resize: vertical;
       line-height: 1.5;
     }
 
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .input-status-icon {
+      position: absolute;
+      right: 14px;
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .input-wrapper.is-valid input { border-color: var(--success); }
+    .input-wrapper.is-valid .input-status-icon { opacity: 1; color: var(--success); }
+    .input-wrapper.is-invalid input, textarea.is-invalid { border-color: var(--error); }
+    .input-wrapper.is-invalid .input-status-icon { opacity: 1; color: var(--error); }
+
+    .textarea-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: none;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-copy:hover {
+      background: rgba(0, 162, 255, 0.1);
+    }
+
     .char-count {
-      text-align: right;
       font-size: 0.75rem;
       color: var(--text-muted);
-      margin-top: 6px;
-      transition: color 0.15s ease;
     }
 
-    .char-count.warning {
-      color: var(--error);
-      font-weight: 600;
+    /* HISTORIQUE DES ENVOIS */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
 
-    input.invalid, textarea.invalid {
-      border-color: var(--error);
+    .history-card {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
     }
 
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 6px;
+    }
+
+    .history-user {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .history-snippet {
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0.85;
+    }
+
+    .empty-history {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 24px 0;
+      font-size: 0.9rem;
+    }
+
+    /* ALERTES & BANIÈRES */
     .status-message {
       display: none;
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      animation: fadeInSlide 0.25s ease;
     }
 
     .status-message.success {
-      display: block;
-      background: rgba(35, 165, 90, 0.1);
-      border: 1px solid rgba(35, 165, 90, 0.3);
-      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(35, 165, 90, 0.12);
+      border: 1px solid rgba(35, 165, 90, 0.35);
+      color: #34d399;
     }
 
     .status-message.error {
-      display: block;
-      background: rgba(242, 63, 66, 0.1);
-      border: 1px solid rgba(242, 63, 66, 0.3);
-      color: var(--error);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(242, 63, 66, 0.12);
+      border: 1px solid rgba(242, 63, 66, 0.35);
+      color: #fca5a5;
     }
 
     .spinner {
       display: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       border-top-color: #fff;
       animation: spin 0.7s linear infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .disclaimer {
-      margin-top: 18px;
-      font-size: 0.75rem;
+      margin-top: 20px;
+      font-size: 0.76rem;
       color: var(--text-muted);
       text-align: center;
-      line-height: 1.5;
+    }
+
+    .hp-field {
+      position: absolute;
+      left: -9999px;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    
-    <div class="header">
-      <svg class="roblox-logo" viewBox="0 0 24 24">
-        <path d="M18.5 24L0 18.5 5.5 0 24 5.5 18.5 24zM10.1 8.6l-1.4 4.8 4.8 1.4 1.4-4.8-4.8-1.4z"/>
-      </svg>
-      <h1>BloxDesk</h1>
-      <p>Plateforme de support & communication Roblox</p>
+  <!-- Décor : Nuages HQ -->
+  <div class="bg-decor" aria-hidden="true">
+    <svg style="width:0;height:0;position:absolute;">
+      <defs>
+        <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.1" />
+          <stop offset="100%" stop-color="#00a2ff" stop-opacity="0.02" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="cloud-wrapper cloud-1">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.5"/></svg>
     </div>
+    <div class="cloud-wrapper cloud-2">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.2"/></svg>
+    </div>
+  </div>
 
-    <!-- 1. PAGE D'ACCUEIL -->
-    <div id="homePage" class="page-section active">
-      <div class="content-box">
-        <h2>Bienvenue sur BloxDesk !</h2>
-        <p>
-          Utilise cette plateforme pour envoyer une demande ou un message directement à l'équipe. Sois le plus clair possible dans tes explications.
-        </p>
-      </div>
+  <div class="container-wrapper">
+    <div class="ambient-glow"></div>
+    <div class="container">
 
-      <div class="btn-group-home">
-        <button class="btn btn-primary" onclick="showPage('formPage')">
-          <i class="fa-solid fa-paper-plane"></i> Commencer
+      <!-- BOUTON SÉLECTEUR DE LANGUE -->
+      <div class="top-bar">
+        <button id="langToggleBtn" class="btn-lang" onclick="toggleLanguage()">
+          <i class="fa-solid fa-globe"></i> <span id="currentLangLabel">EN</span>
         </button>
-        <button class="btn btn-secondary" onclick="showPage('tutoPage')">
-          <i class="fa-solid fa-book"></i> Tutoriel
-        </button>
       </div>
-    </div>
-
-    <!-- 2. PAGE TUTORIEL -->
-    <div id="tutoPage" class="page-section">
-      <button class="btn-back" onclick="showPage('homePage')">
-        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
-      </button>
-
-      <div class="content-box">
-        <h2><i class="fa-solid fa-circle-info"></i> Guide d'utilisation</h2>
-        <ol>
-          <li>Copie ton <strong>ID Discord</strong> (Clic droit sur ton profil Discord en Mode Développeur).</li>
-          <li>Indique ton <strong>Pseudo Roblox</strong> exact.</li>
-          <li>Écris ton message (jusqu'à 2 000 caractères autorisés).</li>
-          <li>Envoie et vérifie le message de confirmation vert.</li>
-        </ol>
+      
+      <div class="header">
+        <div class="roblox-logo-wrapper">
+          <svg class="roblox-logo-hq" viewBox="0 0 100 100">
+            <polygon points="76.5,100 0,76.5 23.5,0 100,23.5" fill="#00a2ff" />
+            <polygon points="41.8,35.7 35.7,56.2 56.2,62.3 62.3,41.8" fill="#090a0e" />
+          </svg>
+        </div>
+        <h1>BloxDesk</h1>
+        <p id="txtSubHeader">Plateforme de support & transmission rapide</p>
       </div>
-    </div>
 
-    <!-- 3. PAGE FORMULAIRE -->
-    <div id="formPage" class="page-section">
-      <button class="btn-back" onclick="showPage('homePage')">
-        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
-      </button>
+      <div class="progress-dots" aria-hidden="true">
+        <span class="dot active" data-dot="homePage"></span>
+        <span class="dot" data-dot="tutoPage"></span>
+        <span class="dot" data-dot="formPage"></span>
+        <span class="dot" data-dot="historyPage"></span>
+      </div>
 
-      <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
-
-      <form id="contactForm" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="discordId"><i class="fa-brands fa-discord"></i> ID Discord</label>
-            <input type="text" id="discordId" placeholder="ex: 282479237092802560" required maxlength="50" inputmode="numeric" autocomplete="off" aria-required="true">
-          </div>
-          <div class="form-group">
-            <label for="robloxUser"><i class="fa-solid fa-user"></i> Pseudo Roblox</label>
-            <input type="text" id="robloxUser" placeholder="ex: Builderman" required maxlength="50" autocomplete="off" aria-required="true">
-          </div>
+      <!-- 1. PAGE D'ACCUEIL -->
+      <div id="homePage" class="page-section active">
+        <div class="content-box">
+          <h2 id="txtWelcomeTitle"><i class="fa-solid fa-hand-wave"></i> Bienvenue !</h2>
+          <p id="txtWelcomeDesc">
+            Utilise cette plateforme sécurisée pour envoyer directement tes informations et ta recette à l'équipe. Sois le plus précis possible pour accélérer le traitement.
+          </p>
         </div>
 
-        <div class="form-group">
-          <label for="userMessage"><i class="fa-solid fa-message"></i> Ton Message</label>
-          <textarea id="userMessage" placeholder="Écris ton message ici..." required maxlength="2000" aria-required="true"></textarea>
-          <div class="char-count"><span id="charCount">0</span> / 2000</div>
+        <div class="btn-group-home">
+          <button class="btn btn-primary" onclick="showPage('formPage')">
+            <i class="fa-solid fa-paper-plane"></i> <span id="btnStartText">Commencer</span>
+          </button>
+          <button class="btn btn-secondary" onclick="showPage('tutoPage')">
+            <i class="fa-solid fa-book-open"></i> <span id="btnTutoText">Tutoriel</span>
+          </button>
+          <button class="btn btn-secondary" onclick="showPage('historyPage')">
+            <i class="fa-solid fa-clock-rotate-left"></i> <span id="btnHistoryText">Historique</span>
+          </button>
         </div>
+      </div>
 
-        <button type="submit" id="btnSubmit" class="btn btn-primary">
-          <span id="btnText">Envoyer</span>
-          <div id="btnSpinner" class="spinner"></div>
+      <!-- 2. PAGE TUTORIEL -->
+      <div id="tutoPage" class="page-section">
+        <button class="btn-back" onclick="showPage('homePage')">
+          <i class="fa-solid fa-arrow-left"></i> <span class="txtBack">Retour à l'accueil</span>
         </button>
-      </form>
 
-      <p class="disclaimer">En envoyant ce formulaire, tes identifiants et ton message sont transmis à l'équipe via Discord.</p>
+        <div class="content-box">
+          <h2 id="txtPrereqTitle"><i class="fa-solid fa-list-check"></i> Prérequis</h2>
+
+          <div class="tuto-block">
+            <h3><i class="fa-brands fa-discord"></i> Obtenir son ID Discord</h3>
+            <ol class="step-list">
+              <li><span class="step-badge">1</span><span class="step-text" id="txtTutoStep1">Va dans **Paramètres Discord** → **Avancés**, puis active le **Mode Développeur**.</span></li>
+              <li><span class="step-badge">2</span><span class="step-text" id="txtTutoStep2">Fais un clic droit sur ton pseudo ou ton avatar.</span></li>
+              <li><span class="step-badge">3</span><span class="step-text" id="txtTutoStep3">Clique sur **Copier l'identifiant**.</span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. PAGE FORMULAIRE -->
+      <div id="formPage" class="page-section">
+        <button class="btn-back" onclick="showPage('homePage')">
+          <i class="fa-solid fa-arrow-left"></i> <span class="txtBack">Retour à l'accueil</span>
+        </button>
+
+        <div id="statusMessage" class="status-message" role="status"></div>
+
+        <form id="contactForm" novalidate>
+          <div class="hp-field"><input type="text" id="website" name="website" tabindex="-1"></div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="discordId"><i class="fa-brands fa-discord"></i> ID Discord</label>
+              <div class="input-wrapper" id="wrapDiscordId">
+                <input type="text" id="discordId" placeholder="ex: 282479237092802560" required maxlength="20" autocomplete="off">
+                <i class="fa-solid input-status-icon"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="robloxUser"><i class="fa-solid fa-user"></i> Pseudo Roblox</label>
+              <div class="input-wrapper" id="wrapRobloxUser">
+                <input type="text" id="robloxUser" placeholder="ex: Builderman" required maxlength="20" autocomplete="off">
+                <i class="fa-solid input-status-icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="userMessage"><i class="fa-solid fa-scroll"></i> <span id="lblRecipe">La Recette</span></label>
+            <textarea id="userMessage" placeholder="Colle la recette ici (20 caractères minimum)..." required maxlength="2000"></textarea>
+            
+            <div class="textarea-actions">
+              <button type="button" class="btn-copy" id="btnCopyRecipe" onclick="copyRecipeText()">
+                <i class="fa-solid fa-copy"></i> <span id="txtCopyLabel">Copier la recette</span>
+              </button>
+              <div class="char-count"><span id="charCount">0</span> / 2000</div>
+            </div>
+          </div>
+
+          <button type="submit" id="btnSubmit" class="btn btn-primary">
+            <span id="btnText">Envoyer la demande</span>
+            <div id="btnSpinner" class="spinner"></div>
+          </button>
+        </form>
+
+        <p class="disclaimer"><i class="fa-solid fa-lock"></i> <span id="txtDisclaimer">Données sécurisées — transmises directement sur Discord.</span></p>
+      </div>
+
+      <!-- 4. PAGE HISTORIQUE (NOUVEAU V1.7) -->
+      <div id="historyPage" class="page-section">
+        <button class="btn-back" onclick="showPage('homePage')">
+          <i class="fa-solid fa-arrow-left"></i> <span class="txtBack">Retour à l'accueil</span>
+        </button>
+
+        <div class="content-box">
+          <h2><i class="fa-solid fa-clock-rotate-left"></i> <span id="txtHistoryTitle">Historique des envois</span></h2>
+          <div id="historyContainer" class="history-list"></div>
+          <button class="btn btn-secondary" style="margin-top: 14px;" onclick="clearHistory()">
+            <i class="fa-solid fa-trash-can"></i> <span id="txtClearHistory">Vider l'historique</span>
+          </button>
+        </div>
+      </div>
+
     </div>
-
   </div>
 
   <script>
-    function showPage(pageId) {
-      document.querySelectorAll('.page-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById(pageId).classList.add('active');
+    // DICTIONNAIRE MULTILINGUE (FR / EN)
+    const translations = {
+      fr: {
+        subHeader: "Plateforme de support & transmission rapide",
+        welcomeTitle: "<i class=\"fa-solid fa-hand-wave\"></i> Bienvenue !",
+        welcomeDesc: "Utilise cette plateforme sécurisée pour envoyer directement tes informations et ta recette à l'équipe. Sois le plus précis possible pour accélérer le traitement.",
+        btnStart: "Commencer",
+        btnTuto: "Tutoriel",
+        btnHistory: "Historique",
+        btnBack: "Retour à l'accueil",
+        prereqTitle: "<i class=\"fa-solid fa-list-check\"></i> Prérequis",
+        tutoStep1: "Va dans <strong>Paramètres Discord</strong> → <strong>Avancés</strong>, puis active le <strong>Mode Développeur</strong>.",
+        tutoStep2: "Fais un clic droit sur ton pseudo ou ton avatar.",
+        tutoStep3: "Clique sur <strong>Copier l'identifiant</strong>.",
+        lblRecipe: "La Recette",
+        txtCopy: "Copier la recette",
+        txtCopied: "Copié !",
+        btnSubmit: "Envoyer la demande",
+        disclaimer: "Données sécurisées — transmises directement sur Discord.",
+        historyTitle: "Historique des envois",
+        clearHistory: "Vider l'historique",
+        noHistory: "Aucun envoi récent enregistré.",
+        placeholderRecipe: "Colle la recette ici (20 caractères minimum)...",
+        successMsg: "Ta recette a été envoyée avec succès !",
+        errFixFields: "Veuillez corriger les champs en rouge avant d'envoyer."
+      },
+      en: {
+        subHeader: "Support & Fast Transmission Platform",
+        welcomeTitle: "<i class=\"fa-solid fa-hand-wave\"></i> Welcome!",
+        welcomeDesc: "Use this secure platform to send your details and recipe directly to the team. Please be as precise as possible to speed up processing.",
+        btnStart: "Get Started",
+        btnTuto: "Tutorial",
+        btnHistory: "History",
+        btnBack: "Back to home",
+        prereqTitle: "<i class=\"fa-solid fa-list-check\"></i> Prerequisites",
+        tutoStep1: "Go to <strong>Discord Settings</strong> → <strong>Advanced</strong>, then enable <strong>Developer Mode</strong>.",
+        tutoStep2: "Right click on your username or avatar.",
+        tutoStep3: "Click <strong>Copy User ID</strong>.",
+        lblRecipe: "The Recipe",
+        txtCopy: "Copy recipe",
+        txtCopied: "Copied!",
+        btnSubmit: "Submit request",
+        disclaimer: "Secure data — transmitted directly to Discord.",
+        historyTitle: "Submission History",
+        clearHistory: "Clear history",
+        noHistory: "No recent submissions recorded.",
+        placeholderRecipe: "Paste the recipe here (20 characters min)...",
+        successMsg: "Your recipe was successfully sent!",
+        errFixFields: "Please fix the red fields before submitting."
+      }
+    };
+
+    let currentLang = 'fr';
+
+    const SafeStorage = {
+      getItem(key) { try { return localStorage.getItem(key); } catch (e) { return null; } },
+      setItem(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      SafeStorage.setItem('bloxdesk_lang', lang);
+      document.getElementById('currentLangLabel').textContent = lang === 'fr' ? 'EN' : 'FR';
+      
+      const t = translations[lang];
+      document.getElementById('txtSubHeader').textContent = t.subHeader;
+      document.getElementById('txtWelcomeTitle').innerHTML = t.welcomeTitle;
+      document.getElementById('txtWelcomeDesc').textContent = t.welcomeDesc;
+      document.getElementById('btnStartText').textContent = t.btnStart;
+      document.getElementById('btnTutoText').textContent = t.btnTuto;
+      document.getElementById('btnHistoryText').textContent = t.btnHistory;
+      document.querySelectorAll('.txtBack').forEach(el => el.textContent = t.btnBack);
+      document.getElementById('txtPrereqTitle').innerHTML = t.prereqTitle;
+      document.getElementById('txtTutoStep1').innerHTML = t.tutoStep1;
+      document.getElementById('txtTutoStep2').innerHTML = t.tutoStep2;
+      document.getElementById('txtTutoStep3').innerHTML = t.tutoStep3;
+      document.getElementById('lblRecipe').textContent = t.lblRecipe;
+      document.getElementById('txtCopyLabel').textContent = t.txtCopy;
+      document.getElementById('btnText').textContent = t.btnSubmit;
+      document.getElementById('txtDisclaimer').textContent = t.disclaimer;
+      document.getElementById('txtHistoryTitle').textContent = t.historyTitle;
+      document.getElementById('txtClearHistory').textContent = t.clearHistory;
+      document.getElementById('userMessage').placeholder = t.placeholderRecipe;
+
+      renderHistory();
     }
 
+    function toggleLanguage() {
+      setLanguage(currentLang === 'fr' ? 'en' : 'fr');
+    }
+
+    // GESTION DU NAV / PAGES
+    function showPage(pageId) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+
+      document.querySelectorAll('.progress-dots .dot').forEach(dot => {
+        dot.classList.toggle('active', dot.dataset.dot === pageId);
+      });
+
+      if (pageId === 'historyPage') renderHistory();
+      document.querySelector('.container-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // COPIE RAPIDE DU TEXTE
+    function copyRecipeText() {
+      const msg = document.getElementById('userMessage').value.trim();
+      if (!msg) return;
+
+      navigator.clipboard.writeText(msg).then(() => {
+        const lbl = document.getElementById('txtCopyLabel');
+        lbl.textContent = translations[currentLang].txtCopied;
+        setTimeout(() => {
+          lbl.textContent = translations[currentLang].txtCopy;
+        }, 2000);
+      });
+    }
+
+    // GESTION HISTORIQUE
+    function saveHistoryItem(robloxUser, discordId, snippet) {
+      let history = JSON.parse(SafeStorage.getItem('bloxdesk_history') || '[]');
+      const newItem = {
+        date: new Date().toLocaleString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { dateStyle: 'short', timeStyle: 'short' }),
+        user: robloxUser,
+        discord: discordId,
+        snippet: snippet.substring(0, 80) + (snippet.length > 80 ? '...' : '')
+      };
+      history.unshift(newItem);
+      if (history.length > 10) history.pop();
+      SafeStorage.setItem('bloxdesk_history', JSON.stringify(history));
+    }
+
+    function renderHistory() {
+      const container = document.getElementById('historyContainer');
+      const history = JSON.parse(SafeStorage.getItem('bloxdesk_history') || '[]');
+
+      if (history.length === 0) {
+        container.innerHTML = `<div class="empty-history">${translations[currentLang].noHistory}</div>`;
+        return;
+      }
+
+      container.innerHTML = history.map(item => `
+        <div class="history-card">
+          <div class="history-header">
+            <span class="history-user"><i class="fa-solid fa-user"></i> ${item.user}</span>
+            <span>${item.date}</span>
+          </div>
+          <div class="history-snippet">${item.snippet}</div>
+        </div>
+      `).join('');
+    }
+
+    function clearHistory() {
+      SafeStorage.setItem('bloxdesk_history', '[]');
+      renderHistory();
+    }
+
+    // CONSTANTES & LOGIQUE WEBHOOK
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1537505090611712181/AbVG3XE6fjOtE7OA3wwOhI2w1rd56Wwwaz3C-99DR5Am-n8YPYJBWz0MtIoKVJzN9nxc";
-    const COOLDOWN_TIME = 30; // Délai d'attente en secondes entre deux envois
+    const COOLDOWN_TIME = 30;
+    const DISCORD_ID_REGEX = /^\d{17,20}$/;
+    const ROBLOX_USERNAME_REGEX = /^[A-Za-z0-9_]{3,20}$/;
 
     const form = document.getElementById('contactForm');
     const btnSubmit = document.getElementById('btnSubmit');
     const btnText = document.getElementById('btnText');
     const btnSpinner = document.getElementById('btnSpinner');
     const statusMessage = document.getElementById('statusMessage');
-    const userMessage = document.getElementById('userMessage');
-    const charCount = document.getElementById('charCount');
-    const discordIdInput = document.getElementById('discordId');
-    const robloxUserInput = document.getElementById('robloxUser');
 
-    const DISCORD_ID_REGEX = /^\d{17,20}$/;
-
-    // Système Anti-Spam (Temps de recharge)
     function checkCooldown() {
-      const lastSend = localStorage.getItem('lastWebhookSend');
+      const lastSend = SafeStorage.getItem('lastWebhookSend');
       if (!lastSend) return false;
-
       const secondsPassed = Math.floor((Date.now() - parseInt(lastSend, 10)) / 1000);
       if (secondsPassed < COOLDOWN_TIME) {
         const remaining = COOLDOWN_TIME - secondsPassed;
         btnSubmit.disabled = true;
-        btnText.textContent = `Patienter (${remaining}s)...`;
+        btnText.textContent = `(${remaining}s)...`;
         return remaining;
       }
-
       btnSubmit.disabled = false;
-      btnText.textContent = "Envoyer";
+      btnText.textContent = translations[currentLang].btnSubmit;
       return false;
     }
 
     setInterval(checkCooldown, 1000);
-    checkCooldown();
-
-    // Compteur dynamique de caractères
-    userMessage.addEventListener('input', () => {
-      const len = userMessage.value.length;
-      charCount.textContent = len;
-      charCount.classList.toggle('warning', len >= 1900);
-    });
-
-    function escapeForDiscord(text) {
-      return text.replace(/[`*_~|\\]/g, '\\$&');
-    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const remainingCooldown = checkCooldown();
-      if (remainingCooldown) {
-        statusMessage.textContent = `⚠️ Merci d'attendre encore ${remainingCooldown} seconde(s) avant de renvoyer un message.`;
+      const discordId = document.getElementById('discordId').value.trim();
+      const robloxUser = document.getElementById('robloxUser').value.trim();
+      const messageContent = document.getElementById('userMessage').value.trim();
+
+      if (!DISCORD_ID_REGEX.test(discordId) || !ROBLOX_USERNAME_REGEX.test(robloxUser) || messageContent.length < 20) {
         statusMessage.className = "status-message error";
-        return;
-      }
-
-      const discordId = discordIdInput.value.trim();
-      const robloxUser = robloxUserInput.value.trim();
-      const messageContent = userMessage.value.trim();
-
-      [discordIdInput, robloxUserInput, userMessage].forEach(el => el.classList.remove('invalid'));
-
-      const missing = [];
-      if (!discordId) missing.push(discordIdInput);
-      if (!robloxUser) missing.push(robloxUserInput);
-      if (!messageContent) missing.push(userMessage);
-
-      if (missing.length) {
-        missing.forEach(el => el.classList.add('invalid'));
-        statusMessage.textContent = "⚠️ Merci de remplir tous les champs avant d'envoyer.";
-        statusMessage.className = "status-message error";
-        missing[0].focus();
-        return;
-      }
-
-      if (!DISCORD_ID_REGEX.test(discordId)) {
-        discordIdInput.classList.add('invalid');
-        statusMessage.textContent = "⚠️ L'ID Discord doit être un identifiant numérique valide (17 à 20 chiffres, Mode Développeur > clic droit > Copier l'ID).";
-        statusMessage.className = "status-message error";
-        discordIdInput.focus();
+        statusMessage.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${translations[currentLang].errFixFields}</span>`;
         return;
       }
 
       btnSubmit.disabled = true;
-      btnText.textContent = "Envoi en cours...";
       btnSpinner.style.display = "block";
-      statusMessage.className = "status-message";
-
-      const cleanMessage = escapeForDiscord(messageContent);
-      const isLongMessage = messageContent.length > 1024;
 
       const payload = {
         username: "BloxDesk Bot",
-        avatar_url: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_2017.svg",
-        embeds: [
-          {
-            title: "📥 Nouveau message reçu !",
-            color: 39423,
-            description: isLongMessage ? `**📝 Message :**\n${cleanMessage}` : undefined,
-            fields: [
-              {
-                name: "👤 Pseudo Roblox",
-                value: escapeForDiscord(robloxUser).substring(0, 256),
-                inline: true
-              },
-              {
-                name: "🆔 ID Discord",
-                value: `<@${discordId}> (${discordId})`,
-                inline: true
-              },
-              ...(!isLongMessage ? [{
-                name: "📝 Message",
-                value: cleanMessage
-              }] : [])
-            ],
-            footer: {
-              text: "BloxDesk • Système de transmission"
-            },
-            timestamp: new Date().toISOString()
-          }
-        ]
+        embeds: [{
+          title: "📥 Nouvelle recette reçue",
+          color: 41727,
+          fields: [
+            { name: "👤 Pseudo Roblox", value: `\`${robloxUser}\``, inline: true },
+            { name: "🆔 ID Discord", value: `<@${discordId}> (\`${discordId}\`)`, inline: true },
+            { name: "📜 La Recette", value: messageContent }
+          ],
+          footer: { text: "BloxDesk v1.7" },
+          timestamp: new Date().toISOString()
+        }]
       };
 
       try {
-        const response = await fetch(WEBHOOK_URL, {
+        const res = await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-          statusMessage.textContent = "✅ Ton message a été transmis avec succès à l'équipe !";
-          statusMessage.classList.add('success');
+        if (res.ok) {
+          statusMessage.className = "status-message success";
+          statusMessage.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${translations[currentLang].successMsg}</span>`;
+          saveHistoryItem(robloxUser, discordId, messageContent);
           form.reset();
-          charCount.textContent = "0";
-          charCount.classList.remove('warning');
-
-          localStorage.setItem('lastWebhookSend', Date.now().toString());
+          SafeStorage.setItem('lastWebhookSend', Date.now().toString());
           checkCooldown();
-
-        } else if (response.status === 429) {
-          throw new Error("Trop de messages envoyés sur le serveur, réessaye dans un instant.");
-        } else {
-          throw new Error("Erreur serveur");
         }
-      } catch (error) {
-        statusMessage.textContent = `❌ ${error.message === "Erreur serveur" ? "Une erreur est survenue lors de l'envoi. Réessaye plus tard." : error.message}`;
-        statusMessage.classList.add('error');
+      } catch (err) {
+        statusMessage.className = "status-message error";
+        statusMessage.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>Erreur réseau.</span>`;
         btnSubmit.disabled = false;
-        btnText.textContent = "Envoyer";
       } finally {
         btnSpinner.style.display = "none";
       }
     });
 
-    [discordIdInput, robloxUserInput, userMessage].forEach(el => {
-      el.addEventListener('input', () => el.classList.remove('invalid'));
-    });
+    // Initialisation
+    const savedLang = SafeStorage.getItem('bloxdesk_lang') || 'fr';
+    setLanguage(savedLang);
   </script>
 </body>
 </html>
