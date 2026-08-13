@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BloxDesk — Plateforme de support et de communication pour Roblox.">
   <title>BloxDesk — Support & Signalement</title>
   
   <!-- Polices Google Fonts & Icônes FontAwesome -->
@@ -140,6 +141,11 @@
       transform: translateY(-1px);
     }
 
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .btn-secondary {
       background: rgba(255, 255, 255, 0.05);
       color: var(--text-main);
@@ -252,6 +258,16 @@
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .char-count.warning {
+      color: var(--error);
+      font-weight: 600;
+    }
+
+    input.invalid, textarea.invalid {
+      border-color: var(--error);
     }
 
     .status-message {
@@ -314,7 +330,6 @@
 
     <!-- 1. PAGE D'ACCUEIL -->
     <div id="homePage" class="page-section active">
-      <!-- ZONE MODIFIABLE : TEXTE D'ACCUEIL -->
       <div class="content-box">
         <h2>Bienvenue sur BloxDesk !</h2>
         <p>
@@ -338,7 +353,6 @@
         <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
       </button>
 
-      <!-- ZONE MODIFIABLE : CONTENU DU TUTORIEL -->
       <div class="content-box">
         <h2><i class="fa-solid fa-circle-info"></i> Guide d'utilisation</h2>
         <ol>
@@ -356,24 +370,23 @@
         <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
       </button>
 
-      <div id="statusMessage" class="status-message"></div>
+      <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
 
-      <form id="contactForm">
+      <form id="contactForm" novalidate>
         <div class="form-row">
           <div class="form-group">
             <label for="discordId"><i class="fa-brands fa-discord"></i> ID Discord</label>
-            <input type="text" id="discordId" placeholder="ex: 282479237092802560" required maxlength="50">
+            <input type="text" id="discordId" placeholder="ex: 282479237092802560" required maxlength="50" inputmode="numeric" autocomplete="off" aria-required="true">
           </div>
           <div class="form-group">
             <label for="robloxUser"><i class="fa-solid fa-user"></i> Pseudo Roblox</label>
-            <input type="text" id="robloxUser" placeholder="ex: Builderman" required maxlength="50">
+            <input type="text" id="robloxUser" placeholder="ex: Builderman" required maxlength="50" autocomplete="off" aria-required="true">
           </div>
         </div>
 
         <div class="form-group">
           <label for="userMessage"><i class="fa-solid fa-message"></i> Ton Message</label>
-          <!-- Limite fixée à 2000 caractères -->
-          <textarea id="userMessage" placeholder="Écris ton message ici..." required maxlength="2000"></textarea>
+          <textarea id="userMessage" placeholder="Écris ton message ici..." required maxlength="2000" aria-required="true"></textarea>
           <div class="char-count"><span id="charCount">0</span> / 2000</div>
         </div>
 
@@ -397,6 +410,7 @@
     }
 
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1537505090611712181/AbVG3XE6fjOtE7OA3wwOhI2w1rd56Wwwaz3C-99DR5Am-n8YPYJBWz0MtIoKVJzN9nxc";
+    const COOLDOWN_TIME = 30; // Délai d'attente en secondes entre deux envois
 
     const form = document.getElementById('contactForm');
     const btnSubmit = document.getElementById('btnSubmit');
@@ -405,13 +419,39 @@
     const statusMessage = document.getElementById('statusMessage');
     const userMessage = document.getElementById('userMessage');
     const charCount = document.getElementById('charCount');
+    const discordIdInput = document.getElementById('discordId');
+    const robloxUserInput = document.getElementById('robloxUser');
 
-    // Mise à jour du compteur dynamique de caractères
+    const DISCORD_ID_REGEX = /^\d{17,20}$/;
+
+    // Système Anti-Spam (Temps de recharge)
+    function checkCooldown() {
+      const lastSend = localStorage.getItem('lastWebhookSend');
+      if (!lastSend) return false;
+
+      const secondsPassed = Math.floor((Date.now() - parseInt(lastSend, 10)) / 1000);
+      if (secondsPassed < COOLDOWN_TIME) {
+        const remaining = COOLDOWN_TIME - secondsPassed;
+        btnSubmit.disabled = true;
+        btnText.textContent = `Patienter (${remaining}s)...`;
+        return remaining;
+      }
+
+      btnSubmit.disabled = false;
+      btnText.textContent = "Envoyer";
+      return false;
+    }
+
+    setInterval(checkCooldown, 1000);
+    checkCooldown();
+
+    // Compteur dynamique de caractères
     userMessage.addEventListener('input', () => {
-      charCount.textContent = userMessage.value.length;
+      const len = userMessage.value.length;
+      charCount.textContent = len;
+      charCount.classList.toggle('warning', len >= 1900);
     });
 
-    // Nettoyage Markdown pour éviter de casser la mise en page Discord
     function escapeForDiscord(text) {
       return text.replace(/[`*_~|\\]/g, '\\$&');
     }
@@ -419,11 +459,39 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const discordId = document.getElementById('discordId').value.trim();
-      const robloxUser = document.getElementById('robloxUser').value.trim();
+      const remainingCooldown = checkCooldown();
+      if (remainingCooldown) {
+        statusMessage.textContent = `⚠️ Merci d'attendre encore ${remainingCooldown} seconde(s) avant de renvoyer un message.`;
+        statusMessage.className = "status-message error";
+        return;
+      }
+
+      const discordId = discordIdInput.value.trim();
+      const robloxUser = robloxUserInput.value.trim();
       const messageContent = userMessage.value.trim();
 
-      if (!discordId || !robloxUser || !messageContent) return;
+      [discordIdInput, robloxUserInput, userMessage].forEach(el => el.classList.remove('invalid'));
+
+      const missing = [];
+      if (!discordId) missing.push(discordIdInput);
+      if (!robloxUser) missing.push(robloxUserInput);
+      if (!messageContent) missing.push(userMessage);
+
+      if (missing.length) {
+        missing.forEach(el => el.classList.add('invalid'));
+        statusMessage.textContent = "⚠️ Merci de remplir tous les champs avant d'envoyer.";
+        statusMessage.className = "status-message error";
+        missing[0].focus();
+        return;
+      }
+
+      if (!DISCORD_ID_REGEX.test(discordId)) {
+        discordIdInput.classList.add('invalid');
+        statusMessage.textContent = "⚠️ L'ID Discord doit être un identifiant numérique valide (17 à 20 chiffres, Mode Développeur > clic droit > Copier l'ID).";
+        statusMessage.className = "status-message error";
+        discordIdInput.focus();
+        return;
+      }
 
       btnSubmit.disabled = true;
       btnText.textContent = "Envoi en cours...";
@@ -433,7 +501,6 @@
       const cleanMessage = escapeForDiscord(messageContent);
       const isLongMessage = messageContent.length > 1024;
 
-      // Construction dynamique du payload Discord selon la longueur du message
       const payload = {
         username: "BloxDesk Bot",
         avatar_url: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_2017.svg",
@@ -441,7 +508,6 @@
           {
             title: "📥 Nouveau message reçu !",
             color: 39423,
-            // Si le message dépasse 1024 chars, il est mis en description pour supporter jusqu'à 2000 chars
             description: isLongMessage ? `**📝 Message :**\n${cleanMessage}` : undefined,
             fields: [
               {
@@ -451,10 +517,9 @@
               },
               {
                 name: "🆔 ID Discord",
-                value: `<@${escapeForDiscord(discordId)}> (${escapeForDiscord(discordId)})`,
+                value: `<@${discordId}> (${discordId})`,
                 inline: true
               },
-              // Si le message est court (<= 1024 chars), il reste dans son champ séparé
               ...(!isLongMessage ? [{
                 name: "📝 Message",
                 value: cleanMessage
@@ -480,17 +545,28 @@
           statusMessage.classList.add('success');
           form.reset();
           charCount.textContent = "0";
+          charCount.classList.remove('warning');
+
+          localStorage.setItem('lastWebhookSend', Date.now().toString());
+          checkCooldown();
+
+        } else if (response.status === 429) {
+          throw new Error("Trop de messages envoyés sur le serveur, réessaye dans un instant.");
         } else {
           throw new Error("Erreur serveur");
         }
       } catch (error) {
-        statusMessage.textContent = "❌ Une erreur est survenue lors de l'envoi. Réessaye plus tard.";
+        statusMessage.textContent = `❌ ${error.message === "Erreur serveur" ? "Une erreur est survenue lors de l'envoi. Réessaye plus tard." : error.message}`;
         statusMessage.classList.add('error');
-      } finally {
         btnSubmit.disabled = false;
         btnText.textContent = "Envoyer";
+      } finally {
         btnSpinner.style.display = "none";
       }
+    });
+
+    [discordIdInput, robloxUserInput, userMessage].forEach(el => {
+      el.addEventListener('input', () => el.classList.remove('invalid'));
     });
   </script>
 </body>
