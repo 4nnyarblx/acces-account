@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="BloxDesk — Plateforme de support et de communication pour Roblox.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230f1117'/%3E%3Cpath d='M18.5 20L4 15.9 8.2 3 22 7 18.5 20z' fill='%2300a2ff'/%3E%3C/svg%3E">
-  <title>BloxDesk v1.7.1 — Support & Signalement</title>
+  <title>BloxDesk v1.7.2 — Support & Signalement</title>
   
   <!-- Polices Google Fonts & Icônes FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -130,6 +130,7 @@
       border-color: var(--accent);
     }
 
+    /* GESTION MULTI-NUAGES (v1.7.2) */
     .bg-decor {
       position: fixed;
       inset: 0;
@@ -150,17 +151,23 @@
       animation: floatUpDown 6s ease-in-out infinite alternate;
     }
 
-    .cloud-1 { top: 5%; width: 280px; opacity: 0.55; animation: driftRight 55s linear infinite; }
-    .cloud-2 { top: 68%; width: 220px; opacity: 0.4; animation: driftLeft 70s linear infinite; animation-delay: -15s; }
+    .cloud-1 { top: 2%; width: 260px; opacity: 0.45; animation: driftRight 45s linear infinite; }
+    .cloud-2 { top: 14%; width: 180px; opacity: 0.35; animation: driftLeft 60s linear infinite; animation-delay: -10s; }
+    .cloud-3 { top: 28%; width: 310px; opacity: 0.5; animation: driftRight 52s linear infinite; animation-delay: -25s; }
+    .cloud-4 { top: 42%; width: 210px; opacity: 0.3; animation: driftLeft 58s linear infinite; animation-delay: -5s; }
+    .cloud-5 { top: 56%; width: 280px; opacity: 0.45; animation: driftRight 64s linear infinite; animation-delay: -35s; }
+    .cloud-6 { top: 70%; width: 230px; opacity: 0.4; animation: driftLeft 42s linear infinite; animation-delay: -18s; }
+    .cloud-7 { top: 82%; width: 190px; opacity: 0.35; animation: driftRight 50s linear infinite; animation-delay: -12s; }
+    .cloud-8 { top: 92%; width: 330px; opacity: 0.45; animation: driftLeft 70s linear infinite; animation-delay: -40s; }
 
     @keyframes driftRight {
-      from { transform: translateX(-25vw); }
-      to   { transform: translateX(125vw); }
+      from { transform: translateX(-30vw); }
+      to   { transform: translateX(130vw); }
     }
 
     @keyframes driftLeft {
-      from { transform: translateX(125vw); }
-      to   { transform: translateX(-25vw); }
+      from { transform: translateX(130vw); }
+      to   { transform: translateX(-30vw); }
     }
 
     @keyframes floatUpDown {
@@ -444,7 +451,6 @@
       transition: opacity 0.2s;
     }
 
-    /* VÉRIFICATION DES SÉLECTEURS CSS DE VALIDATION */
     .input-wrapper.is-valid input { border-color: var(--success) !important; }
     .input-wrapper.is-valid .input-status-icon { opacity: 1; color: var(--success); }
     
@@ -588,6 +594,7 @@
 </head>
 <body>
 
+  <!-- ARRIÈRE-PLAN AVEC DE NOMBREUX NUAGES -->
   <div class="bg-decor" aria-hidden="true">
     <svg style="width:0;height:0;position:absolute;">
       <defs>
@@ -597,11 +604,30 @@
         </linearGradient>
       </defs>
     </svg>
+
     <div class="cloud-wrapper cloud-1">
       <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.5"/></svg>
     </div>
     <div class="cloud-wrapper cloud-2">
       <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.2"/></svg>
+    </div>
+    <div class="cloud-wrapper cloud-3">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.25" stroke-width="1.5"/></svg>
+    </div>
+    <div class="cloud-wrapper cloud-4">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.12" stroke-width="1.2"/></svg>
+    </div>
+    <div class="cloud-wrapper cloud-5">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.18" stroke-width="1.4"/></svg>
+    </div>
+    <div class="cloud-wrapper cloud-6">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.3"/></svg>
+    </div>
+    <div class="cloud-wrapper cloud-7">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.2"/></svg>
+    </div>
+    <div class="cloud-wrapper cloud-8">
+      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.22" stroke-width="1.5"/></svg>
     </div>
   </div>
 
@@ -896,7 +922,6 @@
       renderHistory();
     }
 
-    // CONSTANTES & CONFIGURATION
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1537505090611712181/AbVG3XE6fjOtE7OA3wwOhI2w1rd56Wwwaz3C-99DR5Am-n8YPYJBWz0MtIoKVJzN9nxc";
     const COOLDOWN_TIME = 30;
     const DISCORD_ID_REGEX = /^\d{17,20}$/;
@@ -916,7 +941,6 @@
     const wrapDiscordId = document.getElementById('wrapDiscordId');
     const wrapRobloxUser = document.getElementById('wrapRobloxUser');
 
-    // FONCTIONS DE VALIDATION RESTAURÉES (REREND LES CHAMPS ROUGES/VERTS)
     function validateField(input, wrapper, regex) {
       const val = input.value.trim();
       const icon = wrapper.querySelector('.input-status-icon');
@@ -952,7 +976,6 @@
       }
     }
 
-    // ÉCOUTEURS D'ÉVÉNEMENTS EN TEMPS RÉEL
     discordIdInput.addEventListener('input', () => validateField(discordIdInput, wrapDiscordId, DISCORD_ID_REGEX));
     robloxUserInput.addEventListener('input', () => validateField(robloxUserInput, wrapRobloxUser, ROBLOX_USERNAME_REGEX));
     userMessageInput.addEventListener('input', () => {
@@ -981,7 +1004,6 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Forcer la validation de chaque champ au clic sur Envoyer
       const isDiscordValid = validateField(discordIdInput, wrapDiscordId, DISCORD_ID_REGEX);
       const isRobloxValid = validateField(robloxUserInput, wrapRobloxUser, ROBLOX_USERNAME_REGEX);
       const isRecipeValid = validateRecipe();
@@ -1009,7 +1031,7 @@
             { name: "🆔 ID Discord", value: `<@${discordId}> (\`${discordId}\`)`, inline: true },
             { name: "📜 La Recette", value: messageContent }
           ],
-          footer: { text: "BloxDesk v1.7.1" },
+          footer: { text: "BloxDesk v1.7.2" },
           timestamp: new Date().toISOString()
         }]
       };
@@ -1027,7 +1049,6 @@
           saveHistoryItem(robloxUser, discordId, messageContent);
           form.reset();
           
-          // Réinitialiser les indicateurs visuels
           wrapDiscordId.classList.remove('is-valid', 'is-invalid');
           wrapRobloxUser.classList.remove('is-valid', 'is-invalid');
           userMessageInput.classList.remove('is-invalid');
