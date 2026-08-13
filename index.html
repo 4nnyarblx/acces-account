@@ -55,14 +55,14 @@
       border-radius: 20px;
       padding: 40px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
-    /* Logo Roblox SVG personnalisé */
     .roblox-logo {
       width: 52px;
       height: 52px;
@@ -87,8 +87,118 @@
       font-size: 0.95rem;
     }
 
+    /* GESTION DES PAGES / ÉCRANS */
+    .page-section {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BOUTONS D'ACCUEIL ET DE NAVIGATION */
+    .btn-group-home {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 500px) {
+      .btn-group-home {
+        flex-direction: column;
+      }
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-back {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .btn-back:hover {
+      color: var(--text-main);
+    }
+
+    /* TEXTE D'ACCUEIL & TUTO */
+    .content-box {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      line-height: 1.6;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .content-box h2 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+
+    .content-box ol, .content-box ul {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+
+    .content-box li {
+      margin-bottom: 8px;
+    }
+
+    /* FORMULAIRE */
     .form-group {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .form-row {
@@ -141,35 +251,6 @@
       line-height: 1.5;
     }
 
-    .btn-submit {
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 16px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-submit:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-    }
-
-    .btn-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Message de confirmation / erreur */
     .status-message {
       display: none;
       padding: 14px;
@@ -194,7 +275,6 @@
       color: var(--error);
     }
 
-    /* Spinner de chargement */
     .spinner {
       display: none;
       width: 20px;
@@ -213,46 +293,114 @@
 <body>
 
   <div class="container">
+    
+    <!-- EN-TÊTE FIXE DU SITE -->
     <div class="header">
-      <!-- Logo Officiel Roblox (style incline) -->
       <svg class="roblox-logo" viewBox="0 0 24 24">
         <path d="M18.5 24L0 18.5 5.5 0 24 5.5 18.5 24zM10.1 8.6l-1.4 4.8 4.8 1.4 1.4-4.8-4.8-1.4z"/>
       </svg>
       <h1>BloxDesk</h1>
-      <p>Transmets-nous ton message ou ton signalement directement à l'équipe.</p>
+      <p>Plateforme de support & communication Roblox</p>
     </div>
 
-    <!-- Zone pour afficher le statut du message -->
-    <div id="statusMessage" class="status-message"></div>
-
-    <form id="webhookForm">
-      <!-- Section 1 : Informations utilisateur -->
-      <div class="form-row">
-        <div class="form-group">
-          <label for="discordId"><i class="fa-brands fa-discord"></i> ID Discord</label>
-          <input type="text" id="discordId" placeholder="Ex: 282479237092802560" required>
-        </div>
-        <div class="form-group">
-          <label for="robloxUser"><i class="fa-solid fa-user"></i> Pseudo / Username</label>
-          <input type="text" id="robloxUser" placeholder="Ex: Builderman" required>
-        </div>
+    <!-- ======================================================= -->
+    <!-- 1. PAGE D'ACCUEIL (AFFICHEE PAR DÉFAUT) -->
+    <!-- ======================================================= -->
+    <div id="homePage" class="page-section active">
+      
+      <!-- ZONE MODIFIABLE : TEXTE D'ACCUEIL -->
+      <div class="content-box">
+        <h2>Bienvenue sur BloxDesk !</h2>
+        <p>
+          Bienvenue sur notre plateforme officielle. Avant de transmettre ton message ou ta demande, assure-toi de bien remplir tes identifiants exacts afin que nous puissions te recontacter si nécessaire.
+        </p>
+        <br>
+        <p>
+          Choisis une option ci-dessous pour continuer : accède directement au formulaire d'envoi ou consulte notre tutoriel d'aide.
+        </p>
       </div>
+      <!-- FIN DE LA ZONE MODIFIABLE ACCUEIL -->
 
-      <!-- Section 2 : Zone de texte grande -->
-      <div class="form-group">
-        <label for="userMessage"><i class="fa-solid fa-message"></i> Ton Message</label>
-        <textarea id="userMessage" placeholder="Rédige ton message ici..." required></textarea>
+      <!-- Les 2 Boutons requis -->
+      <div class="btn-group-home">
+        <button class="btn btn-primary" onclick="showPage('formPage')">
+          <i class="fa-solid fa-paper-plane"></i> Commencer
+        </button>
+        <button class="btn btn-secondary" onclick="showPage('tutoPage')">
+          <i class="fa-solid fa-book"></i> Tutoriel
+        </button>
       </div>
+    </div>
 
-      <!-- Bouton d'envoi -->
-      <button type="submit" id="btnSubmit" class="btn-submit">
-        <span id="btnText">Envoyer le message</span>
-        <div id="btnSpinner" class="spinner"></div>
+    <!-- ======================================================= -->
+    <!-- 2. PAGE TUTORIEL -->
+    <!-- ======================================================= -->
+    <div id="tutoPage" class="page-section">
+      <button class="btn-back" onclick="showPage('homePage')">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
       </button>
-    </form>
+
+      <!-- ZONE MODIFIABLE : CONTENU DU TUTORIEL -->
+      <div class="content-box">
+        <h2><i class="fa-solid fa-circle-info"></i> Comment envoyer un message ?</h2>
+        <p>Suis ces étapes simples pour transmettre tes informations à notre équipe :</p>
+        <ol>
+          <li>Clique sur le bouton <strong>« Commencer »</strong>.</li>
+          <li>Récupère ton <strong>ID Discord</strong> (Paramètres Discord > Avancé > Mode développeur > Clic droit sur ton profil > Copier l'identifiant).</li>
+          <li>Renseigne ton <strong>Pseudo Roblox</strong> exact.</li>
+          <li>Rédige ton message dans la grande zone de texte (les longs messages sont supportés).</li>
+          <li>Clique sur <strong>« Envoyer »</strong> et attends le message de confirmation vert.</li>
+        </ol>
+      </div>
+      <!-- FIN DE LA ZONE MODIFIABLE TUTORIEL -->
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- 3. PAGE FORMULAIRE (ZONE DE TEXTE) -->
+    <!-- ======================================================= -->
+    <div id="formPage" class="page-section">
+      <button class="btn-back" onclick="showPage('homePage')">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </button>
+
+      <div id="statusMessage" class="status-message"></div>
+
+      <form id="webhookForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="discordId"><i class="fa-brands fa-discord"></i> ID Discord</label>
+            <input type="text" id="discordId" placeholder="Ex: 282479237092802560" required>
+          </div>
+          <div class="form-group">
+            <label for="robloxUser"><i class="fa-solid fa-user"></i> Pseudo Roblox</label>
+            <input type="text" id="robloxUser" placeholder="Ex: Builderman" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="userMessage"><i class="fa-solid fa-message"></i> Ton Message</label>
+          <textarea id="userMessage" placeholder="Rédige ton message ici..." required></textarea>
+        </div>
+
+        <button type="submit" id="btnSubmit" class="btn btn-primary">
+          <span id="btnText">Envoyer le message</span>
+          <div id="btnSpinner" class="spinner"></div>
+        </button>
+      </form>
+    </div>
+
   </div>
 
   <script>
+    // Navigation entre les pages
+    function showPage(pageId) {
+      document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    // Gestion de l'envoi du Webhook Discord
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1537505090611712181/AbVG3XE6fjOtE7OA3wwOhI2w1rd56Wwwaz3C-99DR5Am-n8YPYJBWz0MtIoKVJzN9nxc";
 
     const form = document.getElementById('webhookForm');
@@ -264,25 +412,22 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Récupération des valeurs des champs
       const discordId = document.getElementById('discordId').value.trim();
       const robloxUser = document.getElementById('robloxUser').value.trim();
       const messageContent = document.getElementById('userMessage').value.trim();
 
-      // UI : Activation du chargement
       btnSubmit.disabled = true;
       btnText.textContent = "Envoi en cours...";
       btnSpinner.style.display = "block";
       statusMessage.className = "status-message";
 
-      // Construction de l'embed Discord stylisé
       const payload = {
         username: "BloxDesk Bot",
         avatar_url: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_2017.svg",
         embeds: [
           {
             title: "📥 Nouveau message reçu !",
-            color: 39423, // Couleur bleue (#00A2FF en decimal)
+            color: 39423,
             fields: [
               {
                 name: "👤 Pseudo Roblox",
@@ -319,7 +464,7 @@
         if (response.ok) {
           statusMessage.textContent = "✅ Ton message a été transmis avec succès à l'équipe !";
           statusMessage.classList.add('success');
-          form.reset(); // Réinitialise les champs
+          form.reset();
         } else {
           throw new Error("Erreur de réponse du serveur");
         }
@@ -327,7 +472,6 @@
         statusMessage.textContent = "❌ Une erreur est survenue lors de l'envoi. Réessaye plus tard.";
         statusMessage.classList.add('error');
       } finally {
-        // UI : Rétablissement du bouton
         btnSubmit.disabled = false;
         btnText.textContent = "Envoyer le message";
         btnSpinner.style.display = "none";
