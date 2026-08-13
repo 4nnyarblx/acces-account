@@ -3,238 +3,309 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloxDesk — Support & Signalement</title>
   
-  <!-- TEXTE A MODIFIER : Titre de l'onglet du navigateur -->
-  <title>Mon Projet Webhook Roblox</title>
+  <!-- Polices Google Fonts & Icônes FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    :root {
+      --bg-color: #0f1117;
+      --card-bg: rgba(22, 26, 36, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #00a2ff;
+      --accent-hover: #0081cc;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --input-bg: rgba(10, 12, 18, 0.6);
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
-      background-color: #e0f2fe;
-      color: #0369a1;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
       padding: 20px;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 162, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
     }
 
-    .card {
-      background: #f0f9ff;
-      padding: 32px;
-      border-radius: 16px;
-      border: 2px solid #bae6fd;
-      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+    .container {
       width: 100%;
-      max-width: 500px;
+      max-width: 650px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .header {
       text-align: center;
+      margin-bottom: 32px;
     }
 
-    /* Style du logo Roblox assorti au thème */
+    /* Logo Roblox SVG personnalisé */
     .roblox-logo {
-      width: 60px;
-      height: 60px;
-      fill: #0284c7; /* Couleur du logo Roblox */
+      width: 52px;
+      height: 52px;
+      fill: var(--text-main);
       margin-bottom: 12px;
+      transition: transform 0.3s ease;
     }
 
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-      color: #0c4a6e;
+    .container:hover .roblox-logo {
+      transform: rotate(-10deg) scale(1.05);
     }
 
-    p.subtitle {
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      color: var(--text-muted);
       font-size: 0.95rem;
-      color: #0284c7;
-      margin-bottom: 24px;
     }
 
     .form-group {
-      text-align: left;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
     }
 
-    /* Masque l'étape 2 au chargement */
-    #step2 {
-      display: none;
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 550px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
     }
 
     label {
       display: block;
-      margin-bottom: 8px;
+      font-size: 0.85rem;
       font-weight: 600;
-      font-size: 0.95rem;
-      color: #0369a1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
     }
 
-    input[type="text"], textarea {
+    label i {
+      margin-right: 6px;
+      color: var(--accent);
+    }
+
+    input, textarea {
       width: 100%;
-      padding: 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
       border-radius: 10px;
-      border: 2px solid #7dd3fc;
-      background-color: #ffffff;
-      color: #0c4a6e;
-      font-size: 1rem;
+      padding: 14px 16px;
+      color: var(--text-main);
+      font-size: 0.95rem;
       outline: none;
       transition: all 0.2s ease;
     }
 
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 162, 255, 0.15);
+    }
+
     textarea {
-      height: 140px;
+      min-height: 180px;
       resize: vertical;
+      line-height: 1.5;
     }
 
-    input[type="text"]:focus, textarea:focus {
-      border-color: #0284c7;
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
-    }
-
-    button {
+    .btn-submit {
       width: 100%;
-      margin-top: 12px;
-      padding: 14px;
-      background-color: #38bdf8;
-      color: #0c4a6e;
+      background: var(--accent);
+      color: #fff;
       border: none;
       border-radius: 10px;
+      padding: 16px;
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
       transition: all 0.2s ease;
     }
 
-    button:hover {
-      background-color: #0284c7;
-      color: #ffffff;
+    .btn-submit:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
     }
 
-    .btn-back {
-      background-color: transparent;
-      border: 2px solid #7dd3fc;
-      color: #0369a1;
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .btn-back:hover {
-      background-color: #bae6fd;
-      color: #0c4a6e;
+    /* Message de confirmation / erreur */
+    .status-message {
+      display: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    #status {
-      margin-top: 18px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      min-height: 22px;
+    .status-message.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--success);
     }
 
-    .success { color: #0284c7; }
-    .error { color: #e11d48; }
-    .loading { color: #0ea5e9; }
+    .status-message.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--error);
+    }
+
+    /* Spinner de chargement */
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    
-    <!-- LOGO ROBLOX VECTORIEL ASSORTI -->
-    <svg class="roblox-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M18.5 0L24 18.5L5.5 24L0 5.5L18.5 0ZM10.2 11.2L12.8 10.4L13.6 13L11 13.8L10.2 11.2Z"/>
-    </svg>
+  <div class="container">
+    <div class="header">
+      <!-- Logo Officiel Roblox (style incline) -->
+      <svg class="roblox-logo" viewBox="0 0 24 24">
+        <path d="M18.5 24L0 18.5 5.5 0 24 5.5 18.5 24zM10.1 8.6l-1.4 4.8 4.8 1.4 1.4-4.8-4.8-1.4z"/>
+      </svg>
+      <h1>BloxDesk</h1>
+      <p>Transmets-nous ton message ou ton signalement directement à l'équipe.</p>
+    </div>
 
-    <!-- TEXTE A MODIFIER : Grand titre principal -->
-    <h1>Titre de ton site</h1>
-    
-    <!-- TEXTE A MODIFIER : Description sous le titre -->
-    <p class="subtitle">Étape par étape : envoie ton message directement sur Discord.</p>
+    <!-- Zone pour afficher le statut du message -->
+    <div id="statusMessage" class="status-message"></div>
 
     <form id="webhookForm">
-      
-      <!-- ÉTAPE 1 : Premier texte court -->
-      <div id="step1">
+      <!-- Section 1 : Informations utilisateur -->
+      <div class="form-row">
         <div class="form-group">
-          <!-- TEXTE A MODIFIER : Libellé du 1er champ -->
-          <label for="firstText">Premier texte (ex: Pseudo / Sujet) :</label>
-          
-          <!-- TEXTE A MODIFIER : Placeholder du 1er champ -->
-          <input type="text" id="firstText" placeholder="Entre ton premier texte..." required>
+          <label for="discordId"><i class="fa-brands fa-discord"></i> ID Discord</label>
+          <input type="text" id="discordId" placeholder="Ex: 282479237092802560" required>
         </div>
-        
-        <!-- TEXTE A MODIFIER : Bouton pour passer à l'étape 2 -->
-        <button type="button" id="nextBtn">Suivant</button>
+        <div class="form-group">
+          <label for="robloxUser"><i class="fa-solid fa-user"></i> Pseudo / Username</label>
+          <input type="text" id="robloxUser" placeholder="Ex: Builderman" required>
+        </div>
       </div>
 
-      <!-- ÉTAPE 2 : Grand texte -->
-      <div id="step2">
-        <div class="form-group">
-          <!-- TEXTE A MODIFIER : Libellé du 2ème champ -->
-          <label for="mainText">Ton grand message :</label>
-          
-          <!-- TEXTE A MODIFIER : Placeholder du 2ème champ -->
-          <textarea id="mainText" placeholder="Tape ton grand texte ici..."></textarea>
-        </div>
-        
-        <!-- TEXTE A MODIFIER : Bouton d'envoi final -->
-        <button type="submit">Publier le message</button>
-        
-        <!-- TEXTE A MODIFIER : Bouton pour revenir en arrière -->
-        <button type="button" id="backBtn" class="btn-back">Retour</button>
+      <!-- Section 2 : Zone de texte grande -->
+      <div class="form-group">
+        <label for="userMessage"><i class="fa-solid fa-message"></i> Ton Message</label>
+        <textarea id="userMessage" placeholder="Rédige ton message ici..." required></textarea>
       </div>
 
+      <!-- Bouton d'envoi -->
+      <button type="submit" id="btnSubmit" class="btn-submit">
+        <span id="btnText">Envoyer le message</span>
+        <div id="btnSpinner" class="spinner"></div>
+      </button>
     </form>
-
-    <p id="status"></p>
   </div>
 
   <script>
-    // COLLE TON URL DE WEBHOOK DISCORD ENTRE LES GUILLEMETS CI-DESSOUS
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1536037492485128212/x9aXa5ItMYOABx_NNRhNHebK8imGsLDiRjKIrsRIzLw1uJ6emYeJvwHk1TzDr45nyXSJ";
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1537505090611712181/AbVG3XE6fjOtE7OA3wwOhI2w1rd56Wwwaz3C-99DR5Am-n8YPYJBWz0MtIoKVJzN9nxc";
 
-    const step1 = document.getElementById('step1');
-    const step2 = document.getElementById('step2');
-    const firstTextInput = document.getElementById('firstText');
-    const mainTextInput = document.getElementById('mainText');
-    const nextBtn = document.getElementById('nextBtn');
-    const backBtn = document.getElementById('backBtn');
-    const status = document.getElementById('status');
+    const form = document.getElementById('webhookForm');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const statusMessage = document.getElementById('statusMessage');
 
-    // Passage à l'étape 2
-    nextBtn.addEventListener('click', () => {
-      if (firstTextInput.value.trim() === '') {
-        status.className = "error";
-        status.textContent = "Merci de remplir ce premier champ.";
-        return;
-      }
-      status.textContent = "";
-      step1.style.display = "none";
-      step2.style.display = "block";
-      mainTextInput.setAttribute('required', 'true');
-    });
-
-    // Retour à l'étape 1
-    backBtn.addEventListener('click', () => {
-      step2.style.display = "none";
-      step1.style.display = "block";
-      mainTextInput.removeAttribute('required');
-    });
-
-    // Envoi du formulaire
-    document.getElementById('webhookForm').addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const text1 = firstTextInput.value;
-      const text2 = mainTextInput.value;
 
-      status.className = "loading";
-      status.textContent = "Envoi en cours...";
+      // Récupération des valeurs des champs
+      const discordId = document.getElementById('discordId').value.trim();
+      const robloxUser = document.getElementById('robloxUser').value.trim();
+      const messageContent = document.getElementById('userMessage').value.trim();
 
-      // Mise en forme du message envoyé sur Discord
-      const formattedMessage = `**Premier texte :** ${text1}\n**Grand texte :**\n${text2}`;
+      // UI : Activation du chargement
+      btnSubmit.disabled = true;
+      btnText.textContent = "Envoi en cours...";
+      btnSpinner.style.display = "block";
+      statusMessage.className = "status-message";
+
+      // Construction de l'embed Discord stylisé
+      const payload = {
+        username: "BloxDesk Bot",
+        avatar_url: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_2017.svg",
+        embeds: [
+          {
+            title: "📥 Nouveau message reçu !",
+            color: 39423, // Couleur bleue (#00A2FF en decimal)
+            fields: [
+              {
+                name: "👤 Pseudo Roblox",
+                value: robloxUser || "Non renseigné",
+                inline: true
+              },
+              {
+                name: "🆔 ID Discord",
+                value: discordId ? `<@${discordId}> (${discordId})` : "Non renseigné",
+                inline: true
+              },
+              {
+                name: "📝 Message",
+                value: messageContent.length > 1024 ? messageContent.substring(0, 1020) + "..." : messageContent
+              }
+            ],
+            footer: {
+              text: "BloxDesk • Système de transmission"
+            },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
 
       try {
         const response = await fetch(WEBHOOK_URL, {
@@ -242,30 +313,26 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            content: formattedMessage
-          })
+          body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-          status.className = "success";
-          status.textContent = "Message envoyé avec succès !";
-          
-          // Réinitialisation du formulaire
-          firstTextInput.value = '';
-          mainTextInput.value = '';
-          step2.style.display = "none";
-          step1.style.display = "block";
+          statusMessage.textContent = "✅ Ton message a été transmis avec succès à l'équipe !";
+          statusMessage.classList.add('success');
+          form.reset(); // Réinitialise les champs
         } else {
-          status.className = "error";
-          status.textContent = "Erreur lors de l'envoi.";
+          throw new Error("Erreur de réponse du serveur");
         }
       } catch (error) {
-        status.className = "error";
-        status.textContent = "Erreur réseau. Vérifie ta connexion.";
+        statusMessage.textContent = "❌ Une erreur est survenue lors de l'envoi. Réessaye plus tard.";
+        statusMessage.classList.add('error');
+      } finally {
+        // UI : Rétablissement du bouton
+        btnSubmit.disabled = false;
+        btnText.textContent = "Envoyer le message";
+        btnSpinner.style.display = "none";
       }
     });
   </script>
-
 </body>
 </html>
