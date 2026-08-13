@@ -14,15 +14,15 @@
   <style>
     :root {
       --bg-color: #0f1117;
-      --card-bg: rgba(22, 26, 36, 0.75);
+      --card-bg: rgba(22, 26, 36, 0.85);
       --card-border: rgba(255, 255, 255, 0.08);
       --accent: #00a2ff;
       --accent-hover: #0081cc;
       --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --input-bg: rgba(10, 12, 18, 0.6);
-      --success: #10b981;
-      --error: #ef4444;
+      --text-muted: #8b8f98;
+      --input-bg: #0e0f12;
+      --success: #23a55a;
+      --error: #f23f42;
     }
 
     * {
@@ -47,15 +47,13 @@
 
     .container {
       width: 100%;
-      max-width: 650px;
+      max-width: 600px;
       background: var(--card-bg);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 40px;
+      padding: 36px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      position: relative;
     }
 
     .header {
@@ -64,8 +62,8 @@
     }
 
     .roblox-logo {
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       fill: var(--text-main);
       margin-bottom: 12px;
       transition: transform 0.3s ease;
@@ -76,7 +74,7 @@
     }
 
     .header h1 {
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       font-weight: 700;
       letter-spacing: -0.5px;
       margin-bottom: 6px;
@@ -84,13 +82,14 @@
 
     .header p {
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
-    /* GESTION DES PAGES / ÉCRANS */
+    /* GESTION DES PAGES */
     .page-section {
       display: none;
-      animation: fadeIn 0.3s ease-in-out;
+      animation: fadeIn 0.25s ease-in-out;
     }
 
     .page-section.active {
@@ -98,14 +97,14 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* BOUTONS D'ACCUEIL ET DE NAVIGATION */
+    /* BOUTONS D'ACCUEIL */
     .btn-group-home {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       margin-top: 24px;
     }
 
@@ -119,8 +118,8 @@
       width: 100%;
       border: none;
       border-radius: 10px;
-      padding: 16px;
-      font-size: 1rem;
+      padding: 14px;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -136,7 +135,7 @@
       color: #fff;
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover:not(:disabled) {
       background: var(--accent-hover);
       transform: translateY(-1px);
     }
@@ -157,12 +156,11 @@
       color: var(--text-muted);
       border: none;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 20px;
-      padding: 0;
       transition: color 0.2s;
     }
 
@@ -170,33 +168,32 @@
       color: var(--text-main);
     }
 
-    /* TEXTE D'ACCUEIL & TUTO */
+    /* CONTENUS TEXTE */
     .content-box {
       background: var(--input-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 20px;
       line-height: 1.6;
-      color: var(--text-main);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .content-box h2 {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
       color: var(--accent);
     }
 
-    .content-box ol, .content-box ul {
+    .content-box ol {
       margin-left: 20px;
       margin-top: 10px;
     }
 
     .content-box li {
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
-    /* FORMULAIRE */
+    /* FORMULAIRE & INPUTS */
     .form-group {
       margin-bottom: 20px;
     }
@@ -204,7 +201,7 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
     @media (max-width: 550px) {
@@ -215,10 +212,10 @@
 
     label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       color: var(--text-muted);
       margin-bottom: 8px;
     }
@@ -232,17 +229,16 @@
       width: 100%;
       background: var(--input-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 14px 16px;
+      border-radius: 8px;
+      padding: 12px 14px;
       color: var(--text-main);
       font-size: 0.95rem;
       outline: none;
-      transition: all 0.2s ease;
+      transition: border-color 0.15s ease;
     }
 
     input:focus, textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0, 162, 255, 0.15);
     }
 
     textarea {
@@ -251,42 +247,58 @@
       line-height: 1.5;
     }
 
+    /* Nouveau : Compteur de caractères */
+    .char-count {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
     .status-message {
       display: none;
-      padding: 14px;
-      border-radius: 10px;
-      font-size: 0.9rem;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
       font-weight: 500;
-      text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .status-message.success {
       display: block;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(35, 165, 90, 0.1);
+      border: 1px solid rgba(35, 165, 90, 0.3);
       color: var(--success);
     }
 
     .status-message.error {
       display: block;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      background: rgba(242, 63, 66, 0.1);
+      border: 1px solid rgba(242, 63, 66, 0.3);
       color: var(--error);
     }
 
     .spinner {
       display: none;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,0.3);
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       border-top-color: #fff;
-      animation: spin 0.8s ease-in-out infinite;
+      animation: spin 0.7s linear infinite;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
+    }
+
+    /* Nouveau : Disclaimer légal en bas */
+    .disclaimer {
+      margin-top: 18px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -294,7 +306,6 @@
 
   <div class="container">
     
-    <!-- EN-TÊTE FIXE DU SITE -->
     <div class="header">
       <svg class="roblox-logo" viewBox="0 0 24 24">
         <path d="M18.5 24L0 18.5 5.5 0 24 5.5 18.5 24zM10.1 8.6l-1.4 4.8 4.8 1.4 1.4-4.8-4.8-1.4z"/>
@@ -303,25 +314,15 @@
       <p>Plateforme de support & communication Roblox</p>
     </div>
 
-    <!-- ======================================================= -->
-    <!-- 1. PAGE D'ACCUEIL (AFFICHEE PAR DÉFAUT) -->
-    <!-- ======================================================= -->
+    <!-- 1. PAGE D'ACCUEIL -->
     <div id="homePage" class="page-section active">
-      
-      <!-- ZONE MODIFIABLE : TEXTE D'ACCUEIL -->
       <div class="content-box">
         <h2>Bienvenue sur BloxDesk !</h2>
         <p>
-          Bienvenue sur notre plateforme officielle. Avant de transmettre ton message ou ta demande, assure-toi de bien remplir tes identifiants exacts afin que nous puissions te recontacter si nécessaire.
-        </p>
-        <br>
-        <p>
-          Choisis une option ci-dessous pour continuer : accède directement au formulaire d'envoi ou consulte notre tutoriel d'aide.
+          Utilise cette plateforme pour envoyer une demande ou un message directement à l'équipe. Sois le plus clair possible dans tes explications.
         </p>
       </div>
-      <!-- FIN DE LA ZONE MODIFIABLE ACCUEIL -->
 
-      <!-- Les 2 Boutons requis -->
       <div class="btn-group-home">
         <button class="btn btn-primary" onclick="showPage('formPage')">
           <i class="fa-solid fa-paper-plane"></i> Commencer
@@ -332,32 +333,24 @@
       </div>
     </div>
 
-    <!-- ======================================================= -->
     <!-- 2. PAGE TUTORIEL -->
-    <!-- ======================================================= -->
     <div id="tutoPage" class="page-section">
       <button class="btn-back" onclick="showPage('homePage')">
         <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
       </button>
 
-      <!-- ZONE MODIFIABLE : CONTENU DU TUTORIEL -->
       <div class="content-box">
-        <h2><i class="fa-solid fa-circle-info"></i> Comment envoyer un message ?</h2>
-        <p>Suis ces étapes simples pour transmettre tes informations à notre équipe :</p>
+        <h2><i class="fa-solid fa-circle-info"></i> Guide d'utilisation</h2>
         <ol>
-          <li>Clique sur le bouton <strong>« Commencer »</strong>.</li>
-          <li>Récupère ton <strong>ID Discord</strong> (Paramètres Discord > Avancé > Mode développeur > Clic droit sur ton profil > Copier l'identifiant).</li>
-          <li>Renseigne ton <strong>Pseudo Roblox</strong> exact.</li>
-          <li>Rédige ton message dans la grande zone de texte (les longs messages sont supportés).</li>
-          <li>Clique sur <strong>« Envoyer »</strong> et attends le message de confirmation vert.</li>
+          <li>Copie ton <strong>ID Discord</strong> (Clic droit sur ton profil Discord en Mode Développeur).</li>
+          <li>Indique ton <strong>Pseudo Roblox</strong> exact.</li>
+          <li>Écris ton message (maximum 1000 caractères).</li>
+          <li>Envoie et vérifie le message de confirmation vert.</li>
         </ol>
       </div>
-      <!-- FIN DE LA ZONE MODIFIABLE TUTORIEL -->
     </div>
 
-    <!-- ======================================================= -->
-    <!-- 3. PAGE FORMULAIRE (ZONE DE TEXTE) -->
-    <!-- ======================================================= -->
+    <!-- 3. PAGE FORMULAIRE -->
     <div id="formPage" class="page-section">
       <button class="btn-back" onclick="showPage('homePage')">
         <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
@@ -365,34 +358,38 @@
 
       <div id="statusMessage" class="status-message"></div>
 
-      <form id="webhookForm">
+      <form id="contactForm">
         <div class="form-row">
           <div class="form-group">
             <label for="discordId"><i class="fa-brands fa-discord"></i> ID Discord</label>
-            <input type="text" id="discordId" placeholder="Ex: 282479237092802560" required>
+            <input type="text" id="discordId" placeholder="ex: 282479237092802560" required maxlength="50">
           </div>
           <div class="form-group">
             <label for="robloxUser"><i class="fa-solid fa-user"></i> Pseudo Roblox</label>
-            <input type="text" id="robloxUser" placeholder="Ex: Builderman" required>
+            <input type="text" id="robloxUser" placeholder="ex: Builderman" required maxlength="50">
           </div>
         </div>
 
         <div class="form-group">
           <label for="userMessage"><i class="fa-solid fa-message"></i> Ton Message</label>
-          <textarea id="userMessage" placeholder="Rédige ton message ici..." required></textarea>
+          <textarea id="userMessage" placeholder="Écris ton message ici..." required maxlength="1000"></textarea>
+          <!-- Compteur de caractères du nouveau code -->
+          <div class="char-count"><span id="charCount">0</span> / 1000</div>
         </div>
 
         <button type="submit" id="btnSubmit" class="btn btn-primary">
-          <span id="btnText">Envoyer le message</span>
+          <span id="btnText">Envoyer</span>
           <div id="btnSpinner" class="spinner"></div>
         </button>
       </form>
+
+      <!-- Disclaimer issu du nouveau code -->
+      <p class="disclaimer">En envoyant ce formulaire, tes identifiants et ton message sont transmis à l'équipe via Discord.</p>
     </div>
 
   </div>
 
   <script>
-    // Navigation entre les pages
     function showPage(pageId) {
       document.querySelectorAll('.page-section').forEach(section => {
         section.classList.remove('active');
@@ -400,21 +397,34 @@
       document.getElementById(pageId).classList.add('active');
     }
 
-    // Gestion de l'envoi du Webhook Discord
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1537505090611712181/AbVG3XE6fjOtE7OA3wwOhI2w1rd56Wwwaz3C-99DR5Am-n8YPYJBWz0MtIoKVJzN9nxc";
 
-    const form = document.getElementById('webhookForm');
+    const form = document.getElementById('contactForm');
     const btnSubmit = document.getElementById('btnSubmit');
     const btnText = document.getElementById('btnText');
     const btnSpinner = document.getElementById('btnSpinner');
     const statusMessage = document.getElementById('statusMessage');
+    const userMessage = document.getElementById('userMessage');
+    const charCount = document.getElementById('charCount');
+
+    // Mise à jour du compteur de caractères
+    userMessage.addEventListener('input', () => {
+      charCount.textContent = userMessage.value.length;
+    });
+
+    // Nettoyage Markdown pour éviter les bugs sur Discord
+    function escapeForDiscord(text) {
+      return text.replace(/[`*_~|\\]/g, '\\$&');
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const discordId = document.getElementById('discordId').value.trim();
       const robloxUser = document.getElementById('robloxUser').value.trim();
-      const messageContent = document.getElementById('userMessage').value.trim();
+      const messageContent = userMessage.value.trim();
+
+      if (!discordId || !robloxUser || !messageContent) return;
 
       btnSubmit.disabled = true;
       btnText.textContent = "Envoi en cours...";
@@ -431,17 +441,17 @@
             fields: [
               {
                 name: "👤 Pseudo Roblox",
-                value: robloxUser || "Non renseigné",
+                value: escapeForDiscord(robloxUser).substring(0, 256),
                 inline: true
               },
               {
                 name: "🆔 ID Discord",
-                value: discordId ? `<@${discordId}> (${discordId})` : "Non renseigné",
+                value: `<@${escapeForDiscord(discordId)}> (${escapeForDiscord(discordId)})`,
                 inline: true
               },
               {
                 name: "📝 Message",
-                value: messageContent.length > 1024 ? messageContent.substring(0, 1020) + "..." : messageContent
+                value: escapeForDiscord(messageContent).substring(0, 1024)
               }
             ],
             footer: {
@@ -455,9 +465,7 @@
       try {
         const response = await fetch(WEBHOOK_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
@@ -465,15 +473,16 @@
           statusMessage.textContent = "✅ Ton message a été transmis avec succès à l'équipe !";
           statusMessage.classList.add('success');
           form.reset();
+          charCount.textContent = "0";
         } else {
-          throw new Error("Erreur de réponse du serveur");
+          throw new Error("Erreur serveur");
         }
       } catch (error) {
         statusMessage.textContent = "❌ Une erreur est survenue lors de l'envoi. Réessaye plus tard.";
         statusMessage.classList.add('error');
       } finally {
         btnSubmit.disabled = false;
-        btnText.textContent = "Envoyer le message";
+        btnText.textContent = "Envoyer";
         btnSpinner.style.display = "none";
       }
     });
