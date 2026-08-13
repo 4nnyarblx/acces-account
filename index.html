@@ -242,12 +242,11 @@
     }
 
     textarea {
-      min-height: 180px;
+      min-height: 220px;
       resize: vertical;
       line-height: 1.5;
     }
 
-    /* Nouveau : Compteur de caractères */
     .char-count {
       text-align: right;
       font-size: 0.75rem;
@@ -292,7 +291,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Nouveau : Disclaimer légal en bas */
     .disclaimer {
       margin-top: 18px;
       font-size: 0.75rem;
@@ -316,6 +314,7 @@
 
     <!-- 1. PAGE D'ACCUEIL -->
     <div id="homePage" class="page-section active">
+      <!-- ZONE MODIFIABLE : TEXTE D'ACCUEIL -->
       <div class="content-box">
         <h2>Bienvenue sur BloxDesk !</h2>
         <p>
@@ -339,12 +338,13 @@
         <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
       </button>
 
+      <!-- ZONE MODIFIABLE : CONTENU DU TUTORIEL -->
       <div class="content-box">
         <h2><i class="fa-solid fa-circle-info"></i> Guide d'utilisation</h2>
         <ol>
           <li>Copie ton <strong>ID Discord</strong> (Clic droit sur ton profil Discord en Mode Développeur).</li>
           <li>Indique ton <strong>Pseudo Roblox</strong> exact.</li>
-          <li>Écris ton message (maximum 1000 caractères).</li>
+          <li>Écris ton message (jusqu'à 2 000 caractères autorisés).</li>
           <li>Envoie et vérifie le message de confirmation vert.</li>
         </ol>
       </div>
@@ -372,9 +372,9 @@
 
         <div class="form-group">
           <label for="userMessage"><i class="fa-solid fa-message"></i> Ton Message</label>
-          <textarea id="userMessage" placeholder="Écris ton message ici..." required maxlength="1000"></textarea>
-          <!-- Compteur de caractères du nouveau code -->
-          <div class="char-count"><span id="charCount">0</span> / 1000</div>
+          <!-- Limite fixée à 2000 caractères -->
+          <textarea id="userMessage" placeholder="Écris ton message ici..." required maxlength="2000"></textarea>
+          <div class="char-count"><span id="charCount">0</span> / 2000</div>
         </div>
 
         <button type="submit" id="btnSubmit" class="btn btn-primary">
@@ -383,7 +383,6 @@
         </button>
       </form>
 
-      <!-- Disclaimer issu du nouveau code -->
       <p class="disclaimer">En envoyant ce formulaire, tes identifiants et ton message sont transmis à l'équipe via Discord.</p>
     </div>
 
@@ -407,12 +406,12 @@
     const userMessage = document.getElementById('userMessage');
     const charCount = document.getElementById('charCount');
 
-    // Mise à jour du compteur de caractères
+    // Mise à jour du compteur dynamique de caractères
     userMessage.addEventListener('input', () => {
       charCount.textContent = userMessage.value.length;
     });
 
-    // Nettoyage Markdown pour éviter les bugs sur Discord
+    // Nettoyage Markdown pour éviter de casser la mise en page Discord
     function escapeForDiscord(text) {
       return text.replace(/[`*_~|\\]/g, '\\$&');
     }
@@ -431,6 +430,10 @@
       btnSpinner.style.display = "block";
       statusMessage.className = "status-message";
 
+      const cleanMessage = escapeForDiscord(messageContent);
+      const isLongMessage = messageContent.length > 1024;
+
+      // Construction dynamique du payload Discord selon la longueur du message
       const payload = {
         username: "BloxDesk Bot",
         avatar_url: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_2017.svg",
@@ -438,6 +441,8 @@
           {
             title: "📥 Nouveau message reçu !",
             color: 39423,
+            // Si le message dépasse 1024 chars, il est mis en description pour supporter jusqu'à 2000 chars
+            description: isLongMessage ? `**📝 Message :**\n${cleanMessage}` : undefined,
             fields: [
               {
                 name: "👤 Pseudo Roblox",
@@ -449,10 +454,11 @@
                 value: `<@${escapeForDiscord(discordId)}> (${escapeForDiscord(discordId)})`,
                 inline: true
               },
-              {
+              // Si le message est court (<= 1024 chars), il reste dans son champ séparé
+              ...(!isLongMessage ? [{
                 name: "📝 Message",
-                value: escapeForDiscord(messageContent).substring(0, 1024)
-              }
+                value: cleanMessage
+              }] : [])
             ],
             footer: {
               text: "BloxDesk • Système de transmission"
